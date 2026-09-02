@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { siteConfig } from '../config';
 import type { Product } from '../config';
 import Navigation from '../sections/Navigation';
@@ -12,6 +12,7 @@ import FAQ from '../sections/FAQ';
 import About from '../sections/About';
 import Contact from '../sections/Contact';
 import Footer from '../sections/Footer';
+import { getSafeStorage, loadCart, saveCart } from '../lib/cartStorage';
 
 interface CartItem {
   id: number;
@@ -22,7 +23,15 @@ interface CartItem {
 }
 
 export default function Home() {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [cartItems, setCartItems] = useState<CartItem[]>(() => {
+    const storage = getSafeStorage();
+    return storage ? loadCart(storage) : [];
+  });
+
+  useEffect(() => {
+    const storage = getSafeStorage();
+    if (storage) saveCart(storage, cartItems);
+  }, [cartItems]);
 
   const handleAddToCart = useCallback((product: Product) => {
     setCartItems((prevItems) => {

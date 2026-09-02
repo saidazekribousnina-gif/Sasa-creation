@@ -3,8 +3,6 @@ import { Plus } from 'lucide-react';
 import { faqConfig } from '../config';
 
 const FAQ = () => {
-  if (!faqConfig.heading && faqConfig.faqs.length === 0) return null;
-
   const sectionRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [openId, setOpenId] = useState<number | null>(null);
@@ -30,6 +28,8 @@ const FAQ = () => {
   const toggleFaq = (id: number) => {
     setOpenId(openId === id ? null : id);
   };
+
+  if (!faqConfig.heading && faqConfig.faqs.length === 0) return null;
 
   return (
     <section

@@ -24,7 +24,7 @@ const useCountUp = (end: number, duration: number = 2000, start: boolean = false
   return count;
 };
 
-const useParallax = () => {
+const useParallax = (): [React.RefObject<HTMLDivElement | null>, number] => {
   const [offset, setOffset] = useState(0);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -43,24 +43,29 @@ const useParallax = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  return { ref, offset };
+  return [ref, offset] as const;
+};
+
+const StatCounter = ({ value, suffix, label, start }: { value: number; suffix: string; label: string; start: boolean }) => {
+  const count = useCountUp(value, 2000, start);
+  return (
+    <div className="p-6">
+      <span className="block font-serif text-4xl md:text-5xl text-[#8b6d4b] mb-2">
+        {count}{suffix}
+      </span>
+      <span className="text-[#696969] text-sm tracking-wide uppercase">{label}</span>
+    </div>
+  );
 };
 
 const SubHero = () => {
-  if (!subHeroConfig.heading) return null;
-
   const sectionRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [statsVisible, setStatsVisible] = useState(false);
   const statsRef = useRef<HTMLDivElement>(null);
 
-  const img1Parallax = useParallax();
-  const img2Parallax = useParallax();
-
-  // Build countUp hooks for each stat
-  const statCounters = subHeroConfig.stats.map((stat) =>
-    useCountUp(stat.value, 2000, statsVisible)
-  );
+  const [img1ParallaxRef, img1ParallaxOffset] = useParallax();
+  const [img2ParallaxRef, img2ParallaxOffset] = useParallax();
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -97,6 +102,8 @@ const SubHero = () => {
 
     return () => observer.disconnect();
   }, []);
+
+  if (!subHeroConfig.heading) return null;
 
   return (
     <section
@@ -143,7 +150,7 @@ const SubHero = () => {
             {/* Main Image */}
             {subHeroConfig.image1 && (
               <div
-                ref={img1Parallax.ref}
+                ref={img1ParallaxRef}
                 className="absolute top-0 right-0 w-[85%] h-[75%] overflow-hidden shadow-2xl"
                 style={{
                   clipPath: isVisible
@@ -151,7 +158,7 @@ const SubHero = () => {
                     : 'inset(0% 100% 0% 0%)',
                   transition: 'clip-path 1.4s cubic-bezier(0.77, 0, 0.18, 1) 0.2s, transform 1.4s cubic-bezier(0.33, 1, 0.68, 1) 0.2s',
                   transform: isVisible
-                    ? `translateY(${img1Parallax.offset * 0.4}px) rotateY(0deg)`
+                    ? `translateY(${img1ParallaxOffset * 0.4}px) rotateY(0deg)`
                     : `translateY(40px) rotateY(-4deg)`,
                   transformOrigin: 'right center',
                 }}
@@ -161,7 +168,7 @@ const SubHero = () => {
                   alt=""
                   className="w-full h-full object-cover"
                   style={{
-                    transform: `scale(1.1) translateY(${img1Parallax.offset * 0.2}px)`,
+                    transform: `scale(1.1) translateY(${img1ParallaxOffset * 0.2}px)`,
                     transition: 'transform 0.1s linear',
                   }}
                 />
@@ -171,7 +178,7 @@ const SubHero = () => {
             {/* Secondary Image */}
             {subHeroConfig.image2 && (
               <div
-                ref={img2Parallax.ref}
+                ref={img2ParallaxRef}
                 className="absolute bottom-0 left-0 w-[60%] h-[50%] overflow-hidden shadow-2xl"
                 style={{
                   clipPath: isVisible
@@ -179,7 +186,7 @@ const SubHero = () => {
                     : 'inset(100% 0% 0% 0%)',
                   transition: 'clip-path 1.4s cubic-bezier(0.77, 0, 0.18, 1) 0.6s, transform 1.4s cubic-bezier(0.33, 1, 0.68, 1) 0.6s',
                   transform: isVisible
-                    ? `translateY(${img2Parallax.offset * 0.6}px) rotateX(0deg)`
+                    ? `translateY(${img2ParallaxOffset * 0.6}px) rotateX(0deg)`
                     : `translateY(60px) rotateX(4deg)`,
                   transformOrigin: 'bottom center',
                 }}
@@ -189,7 +196,7 @@ const SubHero = () => {
                   alt=""
                   className="w-full h-full object-cover"
                   style={{
-                    transform: `scale(1.08) translateY(${img2Parallax.offset * 0.3}px)`,
+                    transform: `scale(1.08) translateY(${img2ParallaxOffset * 0.3}px)`,
                     transition: 'transform 0.1s linear',
                   }}
                 />
@@ -228,11 +235,8 @@ const SubHero = () => {
             }`}
           >
             {subHeroConfig.stats.map((stat, index) => (
-              <div key={index} className={`p-6 ${index < subHeroConfig.stats.length - 1 ? 'border-r border-gray-200' : ''}`}>
-                <span className="block font-serif text-4xl md:text-5xl text-[#8b6d4b] mb-2">
-                  {statCounters[index]}{stat.suffix}
-                </span>
-                <span className="text-[#696969] text-sm tracking-wide uppercase">{stat.label}</span>
+              <div key={index} className={index < subHeroConfig.stats.length - 1 ? 'border-r border-gray-200' : ''}>
+                <StatCounter value={stat.value} suffix={stat.suffix} label={stat.label} start={statsVisible} />
               </div>
             ))}
           </div>

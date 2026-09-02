@@ -8,8 +8,6 @@ interface ProductsProps {
 }
 
 const Products = ({ onAddToCart }: ProductsProps) => {
-  if (!productsConfig.heading && productsConfig.products.length === 0) return null;
-
   const sectionRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [activeCategory, setActiveCategory] = useState(productsConfig.categories[0] || 'All');
@@ -44,6 +42,8 @@ const Products = ({ onAddToCart }: ProductsProps) => {
       setAddedItems(prev => prev.filter(id => id !== product.id));
     }, 2000);
   };
+
+  if (!productsConfig.heading && productsConfig.products.length === 0) return null;
 
   return (
     <section

@@ -3,14 +3,15 @@ import { ChevronDown } from 'lucide-react';
 import { heroConfig } from '../config';
 
 const Hero = () => {
-  if (!heroConfig.title) return null;
-
   const [isVisible, setIsVisible] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setIsVisible(true);
+    const raf = requestAnimationFrame(() => setIsVisible(true));
+    return () => cancelAnimationFrame(raf);
   }, []);
+
+  if (!heroConfig.title) return null;
 
   const scrollToNext = () => {
     const nextSection = document.querySelector('#subhero');

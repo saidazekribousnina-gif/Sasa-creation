@@ -1,10 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { MapPin, Mail, Phone, Send } from 'lucide-react';
-import { contactConfig } from '../config';
+import { contactConfig, whatsappConfig } from '../config';
+import { buildWhatsAppUrl } from '../lib/whatsapp';
 
 const Contact = () => {
-  if (!contactConfig.heading) return null;
-
   const sectionRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [formData, setFormData] = useState({
@@ -33,18 +32,32 @@ const Contact = () => {
     return () => observer.disconnect();
   }, []);
 
+  if (!contactConfig.heading) return null;
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsSubmitted(true);
-      setFormData({ name: '', email: '', message: '' });
+    const message = [
+      whatsappConfig.contactGreeting,
+      '',
+      `Nom : ${formData.name}`,
+      `E-mail : ${formData.email}`,
+      '',
+      formData.message,
+    ].join('\n');
 
-      setTimeout(() => setIsSubmitted(false), 5000);
-    }, 1500);
+    window.open(
+      buildWhatsAppUrl(whatsappConfig.phoneNumber, message),
+      '_blank',
+      'noopener,noreferrer'
+    );
+
+    setIsSubmitting(false);
+    setIsSubmitted(true);
+    setFormData({ name: '', email: '', message: '' });
+
+    setTimeout(() => setIsSubmitted(false), 5000);
   };
 
   return (

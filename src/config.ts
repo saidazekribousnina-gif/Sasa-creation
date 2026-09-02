@@ -13,6 +13,24 @@ export const siteConfig: SiteConfig = {
   language: "fr",
 };
 
+// ─── WhatsApp ─────────────────────────────────────────────────────────────────
+
+export interface WhatsAppConfig {
+  phoneNumber: string;
+  orderGreeting: string;
+  orderTotalLabel: string;
+  orderOutro: string;
+  contactGreeting: string;
+}
+
+export const whatsappConfig: WhatsAppConfig = {
+  phoneNumber: "+21690271601",
+  orderGreeting: "Bonjour Sasa Creation ! Je souhaite passer une commande :",
+  orderTotalLabel: "Total",
+  orderOutro: "Merci de confirmer ma commande. 🙏",
+  contactGreeting: "Bonjour Sasa Creation ! J'ai une question :",
+};
+
 // ─── Navigation ──────────────────────────────────────────────────────────────
 
 export interface MenuLink {

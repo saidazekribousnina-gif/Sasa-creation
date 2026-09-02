@@ -9,10 +9,10 @@ const iconMap: Record<string, React.ComponentType<{ size?: number; strokeWidth?:
 };
 
 const Footer = () => {
-  if (!footerConfig.brandName) return null;
-
   const [email, setEmail] = useState('');
   const [isSubscribed, setIsSubscribed] = useState(false);
+
+  if (!footerConfig.brandName) return null;
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();

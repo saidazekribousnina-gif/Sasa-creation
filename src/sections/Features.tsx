@@ -10,8 +10,6 @@ const iconMap: Record<string, React.ComponentType<{ size?: number; strokeWidth?:
 };
 
 const Features = () => {
-  if (featuresConfig.features.length === 0) return null;
-
   const sectionRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -32,6 +30,8 @@ const Features = () => {
 
     return () => observer.disconnect();
   }, []);
+
+  if (featuresConfig.features.length === 0) return null;
 
   return (
     <section

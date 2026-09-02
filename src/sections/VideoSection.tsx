@@ -2,8 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { videoSectionConfig } from '../config';
 
 const VideoSection = () => {
-  if (!videoSectionConfig.heading) return null;
-
   const sectionRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -24,6 +22,8 @@ const VideoSection = () => {
 
     return () => observer.disconnect();
   }, []);
+
+  if (!videoSectionConfig.heading) return null;
 
   return (
     <section

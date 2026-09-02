@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { ShoppingBag, X, Search, Instagram, Facebook, Twitter } from 'lucide-react';
-import { navigationConfig } from '../config';
+import { ShoppingBag, X, Search, Instagram, Facebook, Twitter, MessageCircle } from 'lucide-react';
+import { navigationConfig, whatsappConfig } from '../config';
+import { buildOrderMessage, buildWhatsAppUrl } from '../lib/whatsapp';
 
 interface CartItem {
   id: number;
@@ -23,8 +24,6 @@ const iconMap: Record<string, React.ComponentType<{ size?: number; strokeWidth?:
 };
 
 const Navigation = ({ cartItems, onRemoveFromCart, onUpdateQuantity }: NavigationProps) => {
-  if (!navigationConfig.brandName) return null;
-
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -36,6 +35,8 @@ const Navigation = ({ cartItems, onRemoveFromCart, onUpdateQuantity }: Navigatio
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  if (!navigationConfig.brandName) return null;
 
   const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const totalPrice = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -267,7 +268,14 @@ const Navigation = ({ cartItems, onRemoveFromCart, onUpdateQuantity }: Navigatio
                   <span className="text-lg">Sous-total</span>
                   <span className="font-serif text-xl">{totalPrice.toFixed(2)} DT</span>
                 </div>
-                <button className="w-full py-4 bg-[#8b6d4b] text-white font-light tracking-widest btn-hover">
+                <button
+                  onClick={() => {
+                    const message = buildOrderMessage(cartItems);
+                    window.open(buildWhatsAppUrl(whatsappConfig.phoneNumber, message), '_blank', 'noopener,noreferrer');
+                  }}
+                  className="w-full py-4 bg-[#8b6d4b] text-white font-light tracking-widest btn-hover flex items-center justify-center gap-2"
+                >
+                  <MessageCircle size={16} />
                   {navigationConfig.cartCheckoutText}
                 </button>
                 <button

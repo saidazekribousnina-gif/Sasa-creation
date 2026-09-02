@@ -3,8 +3,6 @@ import { ArrowRight } from 'lucide-react';
 import { blogConfig } from '../config';
 
 const Blog = () => {
-  if (!blogConfig.heading && blogConfig.posts.length === 0) return null;
-
   const sectionRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -25,6 +23,8 @@ const Blog = () => {
 
     return () => observer.disconnect();
   }, []);
+
+  if (!blogConfig.heading && blogConfig.posts.length === 0) return null;
 
   return (
     <section
