@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sasa-creation.vercel.app/sitemap.xml

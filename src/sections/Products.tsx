@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { ShoppingBag, Check } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
+import { trackEvent } from '../lib/analytics';
 import type { Product } from '../i18n/types';
 
 interface ProductsProps {
@@ -93,7 +94,12 @@ const Products = ({ onAddToCart }: ProductsProps) => {
             {t.products.categories.map((category, index) => (
               <button
                 key={category}
-                onClick={() => setActiveCategoryIndex(index)}
+                onClick={() => {
+                  if (index !== activeCategoryIndex) {
+                    trackEvent('category_filter', { category, language: t.site.language });
+                  }
+                  setActiveCategoryIndex(index);
+                }}
                 className={`min-h-[44px] px-6 py-2 text-sm tracking-wide transition-all duration-200 cursor-pointer ${
                   activeCategory === category
                     ? 'bg-[#b06c4f] text-white'

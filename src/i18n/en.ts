@@ -1,4 +1,4 @@
-import type { Translations } from './types';
+﻿import type { Translations } from './types';
 
 export const en: Translations = {
   site: {
@@ -31,7 +31,7 @@ export const en: Translations = {
     cartEmptyText: "Your cart is empty — come discover our creations.",
     cartCheckoutText: "Order on WhatsApp",
     continueShoppingText: "Continue shopping",
-    menuBackgroundImage: "/images/atelier.jpg",
+    menuBackgroundImage: "/images/atelier.webp",
     announcementText:
       "Free shipping over 300 DT · One-of-a-kind handmade pieces from Tunisia",
   },
@@ -42,7 +42,7 @@ export const en: Translations = {
     ctaPrimaryTarget: "#products",
     ctaSecondaryText: "Our story",
     ctaSecondaryTarget: "#about",
-    backgroundImage: "/images/hero-portrait.jpg",
+    backgroundImage: "/images/hero-portrait.webp",
     trustBadges: ["100% handmade in Tunisia"],
   },
   subHero: {
@@ -54,8 +54,8 @@ export const en: Translations = {
     ],
     linkText: "Discover our story",
     linkTarget: "#about",
-    image1: "/images/atelier.jpg",
-    image2: "/images/product-4.jpg",
+    image1: "/images/atelier.webp",
+    image2: "/images/product-4.webp",
     stats: [
       { value: 500, suffix: "+", label: "Pieces shaped by hand" },
       { value: 100, suffix: "%", label: "Handmade in our workshop" },
@@ -71,14 +71,14 @@ export const en: Translations = {
     ],
     ctaText: "See the creations",
     ctaTarget: "#products",
-    backgroundImage: "/images/atelier.jpg",
+    backgroundImage: "/images/atelier.webp",
   },
   craftSteps: {
     tag: "The craft",
     heading: "12 gestures, one piece, one story",
     introText:
       "Keep scrolling — every creation goes through these twelve gestures, in our workshop, with no shortcuts.",
-    backgroundImage: "/images/atelier.jpg",
+    backgroundImage: "/images/atelier.webp",
     progressText: "Step {current} of {total}",
     ctaText: "Discover the collection",
     ctaTarget: "#products",
@@ -176,7 +176,7 @@ export const en: Translations = {
         price: 220,
         compareAtPrice: 260,
         category: "Necklaces",
-        image: "/images/product-1.png",
+        image: "/images/product-1.webp",
         stock: 2,
         isOneOfAKind: true,
       },
@@ -186,7 +186,7 @@ export const en: Translations = {
         price: 140,
         compareAtPrice: 0,
         category: "Earrings",
-        image: "/images/product-2.png",
+        image: "/images/product-2.webp",
         stock: 5,
         isOneOfAKind: false,
       },
@@ -196,7 +196,7 @@ export const en: Translations = {
         price: 120,
         compareAtPrice: 0,
         category: "Bracelets",
-        image: "/images/product-3.png",
+        image: "/images/product-3.webp",
         stock: 4,
         isOneOfAKind: false,
       },
@@ -206,7 +206,7 @@ export const en: Translations = {
         price: 160,
         compareAtPrice: 185,
         category: "Rings",
-        image: "/images/product-4.jpg",
+        image: "/images/product-4.webp",
         stock: 1,
         isOneOfAKind: true,
       },
@@ -216,7 +216,7 @@ export const en: Translations = {
         price: 190,
         compareAtPrice: 0,
         category: "Necklaces",
-        image: "/images/product-5.jpg",
+        image: "/images/product-5.webp",
         stock: 3,
         isOneOfAKind: false,
       },
@@ -226,7 +226,7 @@ export const en: Translations = {
         price: 150,
         compareAtPrice: 0,
         category: "Earrings",
-        image: "/images/product-6.jpg",
+        image: "/images/product-6.webp",
         stock: 6,
         isOneOfAKind: false,
       },
@@ -236,7 +236,7 @@ export const en: Translations = {
         price: 130,
         compareAtPrice: 0,
         category: "Bracelets",
-        image: "/images/product-7.jpg",
+        image: "/images/product-7.webp",
         stock: 2,
         isOneOfAKind: true,
       },
@@ -279,7 +279,7 @@ export const en: Translations = {
         id: 1,
         title: "How a Sasa Creation Necklace Is Born",
         date: "August 2, 2026",
-        image: "/images/product-1.png",
+        image: "/images/product-1.webp",
         excerpt:
           "From the first sketch to the final knot — discover the twelve meticulous steps behind each of our handmade necklaces.",
       },
@@ -287,7 +287,7 @@ export const en: Translations = {
         id: 2,
         title: "Caring for Your Handmade Jewelry",
         date: "July 18, 2026",
-        image: "/images/product-5.jpg",
+        image: "/images/product-5.webp",
         excerpt:
           "A few simple habits — put them on last, take them off first, plus a soft cloth — are all it takes to keep your pearls and gold-plated finishes shining for years.",
       },
@@ -295,7 +295,7 @@ export const en: Translations = {
         id: 3,
         title: "Why We Choose Freshwater Pearls",
         date: "June 30, 2026",
-        image: "/images/product-6.jpg",
+        image: "/images/product-6.webp",
         excerpt:
           "No two freshwater pearls are ever alike — and that's exactly why we love them. A close look at our favorite material.",
       },
@@ -350,7 +350,7 @@ export const en: Translations = {
         ],
         quote: "",
         attribution: "",
-        image: "/images/hero-portrait.jpg",
+        image: "/images/hero-portrait.webp",
         backgroundColor: "#423d3f",
         textColor: "#ffffff",
       },
@@ -361,7 +361,7 @@ export const en: Translations = {
         quote:
           "When someone wears one of my creations, they carry a little of my time and attention. That's the whole meaning of our craft — a piece of jewelry must have meaning.",
         attribution: "— Sasa, Founder & Artisan",
-        image: "/images/atelier.jpg",
+        image: "/images/atelier.webp",
         backgroundColor: "#8b6d4b",
         textColor: "#ffffff",
       },
@@ -397,7 +397,7 @@ export const en: Translations = {
     submittedText: "Message sent ✓",
     successMessage:
       "Thank you! We've received your message and will reply within 1 to 2 days.",
-    backgroundImage: "/images/atelier.jpg",
+    backgroundImage: "/images/atelier.webp",
   },
   footer: {
     brandName: "Sasa Creation",

@@ -2,6 +2,7 @@ import { MessageCircle } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { buildWhatsAppUrl } from '../lib/whatsapp';
 import { hapticFeedback } from '../lib/haptics';
+import { trackEvent } from '../lib/analytics';
 
 const WhatsAppFloat = () => {
   const { t } = useLanguage();
@@ -10,6 +11,7 @@ const WhatsAppFloat = () => {
 
   const openChat = () => {
     hapticFeedback(10);
+    trackEvent('whatsapp_contact_click');
     const message = t.whatsapp.contactGreeting;
     window.open(
       buildWhatsAppUrl(t.whatsapp.phoneNumber, message),

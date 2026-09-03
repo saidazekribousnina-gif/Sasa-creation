@@ -8,11 +8,57 @@
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Sasa Creation — Bijoux faits main" />
     <meta property="og:description" content="Bijoux artisanaux faits main — colliers, boucles d'oreilles, bracelets et bagues. Commande confirmée par WhatsApp." />
-    <meta property="og:image" content="/images/hero-portrait.jpg" />
+    <meta property="og:image" content="/images/hero-portrait.webp" />
     <meta property="og:locale" content="fr_FR" />
+    <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/images/hero-portrait.jpg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <link rel="preload" as="image" href="/images/hero-portrait.webp" fetchpriority="high" />
     <title>Sasa Creation — Bijoux faits main</title>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Sasa Creation",
+      "description": "Atelier artisanal de bijoux faits main en Tunisie — colliers, boucles d'oreilles, bracelets et bagues en petites séries.",
+      "url": "https://sasa-creation.vercel.app",
+      "image": "https://sasa-creation.vercel.app/images/hero-portrait.jpg",
+      "telephone": "+21690271601",
+      "email": "hello@sasacreation.com",
+      "priceRange": "120–260 DT",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "TN"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+        "opens": "09:00",
+        "closes": "19:00"
+      },
+      "sameAs": [
+        "https://instagram.com",
+        "https://facebook.com"
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": "Sasa Creation — Collection",
+      "numberOfItems": 7,
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "item": { "@type": "Product", "name": "Collier Luna Perlé", "image": "https://sasa-creation.vercel.app/images/product-1.png", "offers": { "@type": "Offer", "price": "220", "priceCurrency": "TND", "availability": "https://schema.org/InStock" } } },
+        { "@type": "ListItem", "position": 2, "item": { "@type": "Product", "name": "Créoles Aurora", "image": "https://sasa-creation.vercel.app/images/product-2.png", "offers": { "@type": "Offer", "price": "140", "priceCurrency": "TND", "availability": "https://schema.org/InStock" } } },
+        { "@type": "ListItem", "position": 3, "item": { "@type": "Product", "name": "Bracelet Terra", "image": "https://sasa-creation.vercel.app/images/product-3.png", "offers": { "@type": "Offer", "price": "120", "priceCurrency": "TND", "availability": "https://schema.org/InStock" } } },
+        { "@type": "ListItem", "position": 4, "item": { "@type": "Product", "name": "Bague Solstice", "image": "https://sasa-creation.vercel.app/images/product-4.jpg", "offers": { "@type": "Offer", "price": "160", "priceCurrency": "TND", "availability": "https://schema.org/InStock" } } },
+        { "@type": "ListItem", "position": 5, "item": { "@type": "Product", "name": "Collier Ivy", "image": "https://sasa-creation.vercel.app/images/product-5.jpg", "offers": { "@type": "Offer", "price": "190", "priceCurrency": "TND", "availability": "https://schema.org/InStock" } } },
+        { "@type": "ListItem", "position": 6, "item": { "@type": "Product", "name": "Pendentifs Mira", "image": "https://sasa-creation.vercel.app/images/product-6.jpg", "offers": { "@type": "Offer", "price": "150", "priceCurrency": "TND", "availability": "https://schema.org/InStock" } } },
+        { "@type": "ListItem", "position": 7, "item": { "@type": "Product", "name": "Bracelet Éclat", "image": "https://sasa-creation.vercel.app/images/product-7.jpg", "offers": { "@type": "Offer", "price": "130", "priceCurrency": "TND", "availability": "https://schema.org/InStock" } } }
+      ]
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>

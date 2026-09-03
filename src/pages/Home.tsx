@@ -15,6 +15,7 @@ import Footer from '../sections/Footer';
 import WhatsAppFloat from '../sections/WhatsAppFloat';
 import { getSafeStorage, loadCart, saveCart } from '../lib/cartStorage';
 import { hapticFeedback } from '../lib/haptics';
+import { trackEvent } from '../lib/analytics';
 
 interface CartItem {
   id: number;
@@ -38,6 +39,11 @@ export default function Home() {
 
   const handleAddToCart = useCallback((product: Product) => {
     hapticFeedback(10);
+    trackEvent('add_to_cart', {
+      product_id: product.id,
+      price: product.price,
+      one_of_a_kind: product.isOneOfAKind,
+    });
     setCartItems((prevItems) => {
       const existingItem = prevItems.find((item) => item.id === product.id);
       if (existingItem) {

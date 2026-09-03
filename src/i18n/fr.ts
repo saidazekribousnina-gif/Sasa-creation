@@ -1,4 +1,4 @@
-import type { Translations } from './types';
+﻿import type { Translations } from './types';
 
 // ─── Bundle français — source de vérité historique (config.ts) ────────────────
 
@@ -35,7 +35,7 @@ export const fr: Translations = {
     cartEmptyText: "Votre panier est vide — venez découvrir nos créations.",
     cartCheckoutText: "Commander sur WhatsApp",
     continueShoppingText: "Continuer mes achats",
-    menuBackgroundImage: "/images/atelier.jpg",
+    menuBackgroundImage: "/images/atelier.webp",
     announcementText: "Livraison offerte dès 300 DT · Pièces uniques faites main en Tunisie",
   },
 
@@ -46,7 +46,7 @@ export const fr: Translations = {
     ctaPrimaryTarget: "#products",
     ctaSecondaryText: "Notre histoire",
     ctaSecondaryTarget: "#about",
-    backgroundImage: "/images/hero-portrait.jpg",
+    backgroundImage: "/images/hero-portrait.webp",
     trustBadges: ["100% fait main en Tunisie"],
   },
 
@@ -59,8 +59,8 @@ export const fr: Translations = {
     ],
     linkText: "Découvrir notre histoire",
     linkTarget: "#about",
-    image1: "/images/atelier.jpg",
-    image2: "/images/product-4.jpg",
+    image1: "/images/atelier.webp",
+    image2: "/images/product-4.webp",
     stats: [
       { value: 500, suffix: "+", label: "Pièces façonnées à la main" },
       { value: 100, suffix: "%", label: "Fait main dans notre atelier" },
@@ -77,7 +77,7 @@ export const fr: Translations = {
     ],
     ctaText: "Voir les créations",
     ctaTarget: "#products",
-    backgroundImage: "/images/atelier.jpg",
+    backgroundImage: "/images/atelier.webp",
   },
 
   craftSteps: {
@@ -85,7 +85,7 @@ export const fr: Translations = {
     heading: "12 gestes, une pièce, une histoire",
     introText:
       "Faites défiler — chaque création passe par ces douze gestes, dans notre atelier, sans raccourci.",
-    backgroundImage: "/images/atelier.jpg",
+    backgroundImage: "/images/atelier.webp",
     progressText: "Étape {current} sur {total}",
     ctaText: "Découvrir la collection",
     ctaTarget: "#products",
@@ -184,7 +184,7 @@ export const fr: Translations = {
         price: 220,
         compareAtPrice: 260,
         category: "Colliers",
-        image: "/images/product-1.png",
+        image: "/images/product-1.webp",
         stock: 2,
         isOneOfAKind: true,
       },
@@ -194,7 +194,7 @@ export const fr: Translations = {
         price: 140,
         compareAtPrice: 0,
         category: "Boucles d'oreilles",
-        image: "/images/product-2.png",
+        image: "/images/product-2.webp",
         stock: 5,
         isOneOfAKind: false,
       },
@@ -204,7 +204,7 @@ export const fr: Translations = {
         price: 120,
         compareAtPrice: 0,
         category: "Bracelets",
-        image: "/images/product-3.png",
+        image: "/images/product-3.webp",
         stock: 4,
         isOneOfAKind: false,
       },
@@ -214,7 +214,7 @@ export const fr: Translations = {
         price: 160,
         compareAtPrice: 185,
         category: "Bagues",
-        image: "/images/product-4.jpg",
+        image: "/images/product-4.webp",
         stock: 1,
         isOneOfAKind: true,
       },
@@ -224,7 +224,7 @@ export const fr: Translations = {
         price: 190,
         compareAtPrice: 0,
         category: "Colliers",
-        image: "/images/product-5.jpg",
+        image: "/images/product-5.webp",
         stock: 3,
         isOneOfAKind: false,
       },
@@ -234,7 +234,7 @@ export const fr: Translations = {
         price: 150,
         compareAtPrice: 0,
         category: "Boucles d'oreilles",
-        image: "/images/product-6.jpg",
+        image: "/images/product-6.webp",
         stock: 6,
         isOneOfAKind: false,
       },
@@ -244,7 +244,7 @@ export const fr: Translations = {
         price: 130,
         compareAtPrice: 0,
         category: "Bracelets",
-        image: "/images/product-7.jpg",
+        image: "/images/product-7.webp",
         stock: 2,
         isOneOfAKind: true,
       },
@@ -290,7 +290,7 @@ export const fr: Translations = {
         id: 1,
         title: "Comment naît un collier Sasa Creation",
         date: "2 août 2026",
-        image: "/images/product-1.png",
+        image: "/images/product-1.webp",
         excerpt:
           "Du premier croquis au nœud final — découvrez les douze étapes minutieuses derrière chacun de nos colliers faits main.",
       },
@@ -298,7 +298,7 @@ export const fr: Translations = {
         id: 2,
         title: "Entretenir vos bijoux artisanaux",
         date: "18 juillet 2026",
-        image: "/images/product-5.jpg",
+        image: "/images/product-5.webp",
         excerpt:
           "Quelques habitudes simples — mis en dernier, retirés en premier, et un chiffon doux — suffisent à faire briller vos perles et finitions dorées pendant des années.",
       },
@@ -306,7 +306,7 @@ export const fr: Translations = {
         id: 3,
         title: "Pourquoi nous choisissons les perles d'eau douce",
         date: "30 juin 2026",
-        image: "/images/product-6.jpg",
+        image: "/images/product-6.webp",
         excerpt:
           "Deux perles d'eau douce ne sont jamais identiques — et c'est exactement pour cela que nous les aimons. Regard de près sur notre matière préférée.",
       },
@@ -363,7 +363,7 @@ export const fr: Translations = {
         ],
         quote: "",
         attribution: "",
-        image: "/images/hero-portrait.jpg",
+        image: "/images/hero-portrait.webp",
         backgroundColor: "#423d3f",
         textColor: "#ffffff",
       },
@@ -374,7 +374,7 @@ export const fr: Translations = {
         quote:
           "Quand quelqu'un porte l'une de mes créations, il emporte un peu de mon temps et de mon attention. C'est tout le sens de notre métier — un bijou doit avoir une signification.",
         attribution: "— Sasa, Fondatrice & Artisane",
-        image: "/images/atelier.jpg",
+        image: "/images/atelier.webp",
         backgroundColor: "#8b6d4b",
         textColor: "#ffffff",
       },
@@ -412,7 +412,7 @@ export const fr: Translations = {
     submittedText: "Message envoyé ✓",
     successMessage:
       "Merci ! Nous avons bien reçu votre message et répondrons sous 1 à 2 jours.",
-    backgroundImage: "/images/atelier.jpg",
+    backgroundImage: "/images/atelier.webp",
   },
 
   footer: {

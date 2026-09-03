@@ -4,6 +4,7 @@ import { useLanguage } from '../i18n/LanguageContext';
 import { LANGUAGES } from '../i18n/types';
 import type { Language } from '../i18n/types';
 import { buildOrderMessage, buildWhatsAppUrl } from '../lib/whatsapp';
+import { trackEvent } from '../lib/analytics';
 
 interface CartItem {
   id: number;
@@ -97,7 +98,10 @@ const Navigation = ({ cartItems, onRemoveFromCart, onUpdateQuantity }: Navigatio
                 <span key={code} className="flex items-center gap-2">
                   {index > 0 && <span aria-hidden="true">|</span>}
                   <button
-                    onClick={() => setLanguage(code)}
+                    onClick={() => {
+                      trackEvent('language_switch', { from: language, to: code });
+                      setLanguage(code);
+                    }}
                     aria-label={t.languageNames[code]}
                     className={`px-2 py-1 cursor-pointer ${
                       language === code
@@ -348,6 +352,10 @@ const Navigation = ({ cartItems, onRemoveFromCart, onUpdateQuantity }: Navigatio
                 </div>
                 <button
                   onClick={() => {
+                    trackEvent('whatsapp_order_click', {
+                      items_count: cartItems.length,
+                      total: totalPrice,
+                    });
                     const message = buildOrderMessage(cartItems, {
                       orderGreeting: t.whatsapp.orderGreeting,
                       orderTotalLabel: t.whatsapp.orderTotalLabel,

@@ -56,6 +56,21 @@ export function detectInitialLanguage(): Language {
   return 'fr';
 }
 
+/** Crée ou met à jour une balise meta (name ou property) */
+function setMetaTag(
+  key: string,
+  content: string,
+  attribute: 'name' | 'property' = 'name'
+): void {
+  let tag = document.querySelector<HTMLMetaElement>(`meta[${attribute}="${key}"]`);
+  if (!tag) {
+    tag = document.createElement('meta');
+    tag.setAttribute(attribute, key);
+    document.head.appendChild(tag);
+  }
+  tag.setAttribute('content', content);
+}
+
 interface LanguageProviderProps {
   children: ReactNode;
   /** Pour les tests — force la langue initiale */
@@ -72,8 +87,13 @@ export function LanguageProvider({ children, initialLanguage }: LanguageProvider
     root.lang = language;
     root.dir = isRtl(language) ? 'rtl' : 'ltr';
 
-    // Synchronise le titre de l'onglet avec la langue active
-    document.title = bundles[language].site.title;
+    // Métadonnées dynamiques — SEO par langue
+    const bundle = bundles[language];
+    document.title = bundle.site.title;
+    setMetaTag('description', bundle.site.description);
+    setMetaTag('og:title', bundle.site.title, 'property');
+    setMetaTag('og:description', bundle.site.description, 'property');
+    setMetaTag('og:locale', language === 'fr' ? 'fr_FR' : language === 'en' ? 'en_US' : 'ar_TN', 'property');
 
     const storage = getSafeLocalStorage();
     if (storage) {
