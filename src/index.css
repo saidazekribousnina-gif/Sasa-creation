@@ -176,9 +176,9 @@
     }
   }
 
-  /* Micro-interactions — 150-300ms, feedback perceptible */
+  /* Micro-interactions — physique Apple (spring), 150-300ms */
   .card-hover {
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    transition: transform 0.25s cubic-bezier(0.32, 0.72, 0, 1), box-shadow 0.25s cubic-bezier(0.32, 0.72, 0, 1);
   }
 
   .card-hover:hover {
@@ -187,7 +187,7 @@
   }
 
   .link-hover {
-    transition: all 0.25s ease;
+    transition: all 0.25s cubic-bezier(0.32, 0.72, 0, 1);
   }
 
   .link-hover:hover {
@@ -196,21 +196,22 @@
   }
 
   .btn-hover {
-    transition: all 0.2s ease;
+    transition: transform 0.2s cubic-bezier(0.32, 0.72, 0, 1), opacity 0.2s ease, background-color 0.2s ease;
   }
 
   .btn-hover:hover {
-    opacity: 0.9;
+    opacity: 0.92;
     transform: translateY(-2px);
   }
 
+  /* Appui tactile : retour immédiat, comme un objet qu'on presse */
   .btn-hover:active {
-    transform: translateY(0);
-    transition-duration: 0.05s;
+    transform: scale(0.97);
+    transition-duration: 0.08s;
   }
 
   .image-scale {
-    transition: transform 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
   }
 
   .image-scale:hover img {

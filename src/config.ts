@@ -98,12 +98,7 @@ export const heroConfig: HeroConfig = {
   ctaSecondaryText: "Notre histoire",
   ctaSecondaryTarget: "#about",
   backgroundImage: "/images/hero-portrait.jpg",
-  trustBadges: [
-    "100% fait main",
-    "Pièces uniques",
-    "Livraison 2-4 jours",
-    "Réparation 1 an offerte",
-  ],
+  trustBadges: ["100% fait main en Tunisie"],
 };
 
 // ─── SubHero ─────────────────────────────────────────────────────────────────

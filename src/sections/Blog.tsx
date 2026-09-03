@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { blogConfig } from '../config';
 
@@ -30,20 +30,20 @@ const Blog = () => {
     <section
       id="blog"
       ref={sectionRef}
-      className="py-24 bg-[#f7f7f7]"
+      className="py-32 md:py-40 bg-[#faf6f0]"
     >
       <div className="max-w-[1100px] mx-auto px-6">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-16">
           <span
-            className={`inline-block mb-4 text-sm tracking-[0.2em] text-[#8b6d4b] font-medium uppercase transition-all duration-700 ${
+            className={`inline-block mb-5 text-sm tracking-[0.2em] text-[#b06c4f] font-semibold uppercase transition-all duration-700 ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
             }`}
           >
             {blogConfig.tag}
           </span>
           <h2
-            className={`font-serif text-4xl md:text-5xl text-black mb-6 transition-all duration-700 ${
+            className={`font-serif text-4xl md:text-5xl text-[#2b2118] mb-6 transition-all duration-700 ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
             }`}
             style={{ transitionDelay: '200ms' }}
@@ -112,7 +112,7 @@ const Blog = () => {
           >
             <a
               href="#"
-              className="inline-flex items-center gap-2 text-[#8b6d4b] font-medium tracking-wide hover:gap-4 transition-all duration-300"
+              className="inline-flex items-center gap-2 text-[#b06c4f] font-medium tracking-wide hover:gap-4 transition-all duration-300"
             >
               {blogConfig.viewAllText}
               <ArrowRight size={18} />

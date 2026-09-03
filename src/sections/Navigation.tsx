@@ -27,6 +27,7 @@ const Navigation = ({ cartItems, onRemoveFromCart, onUpdateQuantity }: Navigatio
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [showAnnouncement, setShowAnnouncement] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,6 +35,12 @@ const Navigation = ({ cartItems, onRemoveFromCart, onUpdateQuantity }: Navigatio
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Barre d'annonce : s'efface après 5s — le message reste en header mobile
+  useEffect(() => {
+    const timer = setTimeout(() => setShowAnnouncement(false), 5000);
+    return () => clearTimeout(timer);
   }, []);
 
   if (!navigationConfig.brandName) return null;
@@ -51,9 +58,9 @@ const Navigation = ({ cartItems, onRemoveFromCart, onUpdateQuantity }: Navigatio
 
   return (
     <>
-      {/* Barre d'annonce (rareté + réciprocité) */}
-      {navigationConfig.announcementText && (
-        <div className="fixed top-0 left-0 right-0 z-[60] bg-[#2b2118] text-[#faf6f0] text-center text-xs md:text-sm tracking-wide py-2 px-4 font-medium">
+      {/* Barre d'annonce — s'efface d'elle-même après 5 secondes (retenue) */}
+      {navigationConfig.announcementText && showAnnouncement && (
+        <div className="fixed top-0 left-0 right-0 z-[60] bg-[#2b2118] text-[#faf6f0] text-center text-xs md:text-sm tracking-wide py-2 px-4 font-medium transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]">
           {navigationConfig.announcementText}
         </div>
       )}
@@ -62,7 +69,7 @@ const Navigation = ({ cartItems, onRemoveFromCart, onUpdateQuantity }: Navigatio
         className={`fixed left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled ? 'bg-white/95 backdrop-blur-md shadow-sm' : 'bg-transparent'
         }`}
-        style={{ top: navigationConfig.announcementText ? '32px' : '0' }}
+        style={{ top: showAnnouncement && navigationConfig.announcementText ? '32px' : '0' }}
       >
         <div className="flex items-center justify-between h-[70px] px-6 md:px-12 lg:px-[170px]">
           <a
@@ -202,7 +209,7 @@ const Navigation = ({ cartItems, onRemoveFromCart, onUpdateQuantity }: Navigatio
           onClick={() => setIsCartOpen(false)}
         />
         <div
-          className={`absolute right-0 top-0 bottom-0 w-full max-w-md bg-white shadow-xl transition-transform duration-500 ${
+          className={`absolute right-0 top-0 bottom-0 w-full max-w-md bg-white shadow-xl transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${
             isCartOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
         >

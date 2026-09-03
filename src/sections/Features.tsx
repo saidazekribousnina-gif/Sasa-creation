@@ -36,32 +36,31 @@ const Features = () => {
   return (
     <section
       ref={sectionRef}
-      className="py-24 md:py-32 lg:py-[200px]"
-      style={{ backgroundColor: 'rgba(139, 109, 75, 0.05)' }}
+      className="py-32 md:py-48 bg-[#faf6f0]"
     >
-      <div className="max-w-[1400px] mx-auto px-6">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
           {featuresConfig.features.map((feature, index) => {
             const IconComponent = iconMap[feature.icon];
             return (
               <div
                 key={feature.title}
-                className={`p-8 lg:p-[63px] border-b md:border-b-0 md:border-r border-[#e1e1e1] last:border-0 transition-all duration-700 ${
+                className={`p-10 lg:p-14 border-b md:border-b-0 md:border-r border-[#efe7da] last:border-0 transition-all duration-700 ${
                   isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
                 }`}
                 style={{ transitionDelay: `${index * 150}ms` }}
               >
                 {IconComponent && (
                   <IconComponent
-                    size={36}
+                    size={32}
                     strokeWidth={1.2}
-                    className="text-[#8b6d4b] mb-6"
+                    className="text-[#b06c4f] mb-8"
                   />
                 )}
-                <h3 className="font-serif text-2xl lg:text-[36px] text-black mb-4 leading-tight">
+                <h3 className="font-serif text-2xl lg:text-[28px] text-[#2b2118] mb-4 leading-tight">
                   {feature.title}
                 </h3>
-                <p className="text-[#696969] text-base leading-relaxed">
+                <p className="text-[#6b5d4f] text-base leading-relaxed">
                   {feature.description}
                 </p>
               </div>

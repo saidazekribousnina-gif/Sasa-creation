@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import { subHeroConfig } from '../config';
 
 const useCountUp = (end: number, duration: number = 2000, start: boolean = false) => {
@@ -50,10 +50,10 @@ const StatCounter = ({ value, suffix, label, start }: { value: number; suffix: s
   const count = useCountUp(value, 2000, start);
   return (
     <div className="p-6">
-      <span className="block font-serif text-4xl md:text-5xl text-[#8b6d4b] mb-2">
+      <span className="block font-serif text-4xl md:text-5xl text-[#b06c4f] mb-2">
         {count}{suffix}
       </span>
-      <span className="text-[#696969] text-sm tracking-wide uppercase">{label}</span>
+      <span className="text-[#6b5d4f] text-sm tracking-wide uppercase">{label}</span>
     </div>
   );
 };
@@ -109,7 +109,7 @@ const SubHero = () => {
     <section
       id="subhero"
       ref={sectionRef}
-      className="relative py-24 md:py-32 lg:py-40 bg-white overflow-hidden"
+      className="relative py-32 md:py-44 lg:py-56 bg-white overflow-hidden"
     >
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
@@ -119,14 +119,14 @@ const SubHero = () => {
               isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-12'
             }`}
           >
-            <span className="inline-block mb-4 text-sm tracking-[0.2em] text-[#8b6d4b] font-medium uppercase">
+            <span className="inline-block mb-4 text-sm tracking-[0.2em] text-[#b06c4f] font-medium uppercase">
               {subHeroConfig.tag}
             </span>
-            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-black leading-tight mb-6">
+            <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-[#2b2118] leading-tight mb-6">
               {subHeroConfig.heading}
             </h2>
             {subHeroConfig.bodyParagraphs.map((paragraph, index) => (
-              <p key={index} className="text-[#696969] text-lg leading-relaxed mb-6">
+              <p key={index} className="text-[#6b5d4f] text-lg leading-relaxed mb-6">
                 {paragraph}
               </p>
             ))}
@@ -137,7 +137,7 @@ const SubHero = () => {
                   e.preventDefault();
                   document.querySelector(subHeroConfig.linkTarget)?.scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="inline-flex items-center gap-2 text-[#8b6d4b] font-medium tracking-wide hover:gap-4 transition-all duration-300"
+                className="inline-flex items-center gap-2 text-[#b06c4f] font-medium tracking-wide hover:gap-4 transition-all duration-300"
               >
                 {subHeroConfig.linkText}
                 <span className="text-lg">&rarr;</span>
@@ -205,7 +205,7 @@ const SubHero = () => {
 
             {/* Decorative line */}
             <div
-              className="absolute top-[10%] left-[-5%] w-32 h-32 border border-[#8b6d4b]/20"
+              className="absolute top-[10%] left-[-5%] w-32 h-32 border border-[#b06c4f]/20"
               style={{
                 opacity: isVisible ? 1 : 0,
                 transform: isVisible ? 'scale(1) rotate(0deg)' : 'scale(0.6) rotate(-12deg)',
@@ -215,7 +215,7 @@ const SubHero = () => {
 
             {/* Floating accent dot */}
             <div
-              className="absolute bottom-[15%] right-[-3%] w-4 h-4 rounded-full bg-[#8b6d4b]/30"
+              className="absolute bottom-[15%] right-[-3%] w-4 h-4 rounded-full bg-[#b06c4f]/30"
               style={{
                 opacity: isVisible ? 1 : 0,
                 transform: isVisible ? 'scale(1)' : 'scale(0)',

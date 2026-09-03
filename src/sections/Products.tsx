@@ -49,11 +49,11 @@ const Products = ({ onAddToCart }: ProductsProps) => {
     <section
       id="products"
       ref={sectionRef}
-      className="py-24 md:py-32 bg-white"
+      className="py-32 md:py-44 bg-white"
     >
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-[60px]">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-16">
           <span
             className={`inline-block mb-4 text-sm tracking-[0.2em] text-[#b06c4f] font-semibold uppercase transition-all duration-700 ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'

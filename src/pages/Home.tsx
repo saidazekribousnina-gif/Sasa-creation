@@ -14,6 +14,7 @@ import Contact from '../sections/Contact';
 import Footer from '../sections/Footer';
 import WhatsAppFloat from '../sections/WhatsAppFloat';
 import { getSafeStorage, loadCart, saveCart } from '../lib/cartStorage';
+import { hapticFeedback } from '../lib/haptics';
 
 interface CartItem {
   id: number;
@@ -35,6 +36,7 @@ export default function Home() {
   }, [cartItems]);
 
   const handleAddToCart = useCallback((product: Product) => {
+    hapticFeedback(10);
     setCartItems((prevItems) => {
       const existingItem = prevItems.find((item) => item.id === product.id);
       if (existingItem) {

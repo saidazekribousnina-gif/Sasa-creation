@@ -98,22 +98,17 @@ const Hero = () => {
           )}
         </div>
 
-        {/* Badges confiance */}
+        {/* Badge confiance — un seul, l'essentiel */}
         {heroConfig.trustBadges.length > 0 && (
           <div
-            className={`mt-12 flex flex-wrap justify-center gap-3 max-w-2xl transition-all duration-1000 ${
+            className={`mt-12 flex flex-wrap justify-center gap-3 transition-all duration-1000 ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}
             style={{ transitionDelay: '1100ms' }}
           >
-            {heroConfig.trustBadges.map((badge) => (
-              <span
-                key={badge}
-                className="px-4 py-2 text-xs tracking-wide text-white/95 bg-white/10 backdrop-blur-sm border border-white/25 rounded-full"
-              >
-                {badge}
-              </span>
-            ))}
+            <span className="px-5 py-2.5 text-xs tracking-[0.15em] uppercase text-white/95 bg-white/10 backdrop-blur-sm border border-white/25 rounded-full">
+              {heroConfig.trustBadges[0]}
+            </span>
           </div>
         )}
       </div>
