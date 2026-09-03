@@ -92,7 +92,7 @@ export interface HeroConfig {
 
 export const heroConfig: HeroConfig = {
   tagline: "Bijoux artisanaux · Faits main en Tunisie",
-  title: "Chaque pièce raconte\nune histoire faite main",
+  title: "Chaque pièce\nraconte une histoire",
   ctaPrimaryText: "Découvrir la collection",
   ctaPrimaryTarget: "#products",
   ctaSecondaryText: "Notre histoire",
