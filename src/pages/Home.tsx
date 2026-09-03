@@ -4,7 +4,7 @@ import type { Product } from '../config';
 import Navigation from '../sections/Navigation';
 import Hero from '../sections/Hero';
 import SubHero from '../sections/SubHero';
-import VideoSection from '../sections/VideoSection';
+import CraftSteps from '../sections/CraftSteps';
 import Products from '../sections/Products';
 import Features from '../sections/Features';
 import Blog from '../sections/Blog';
@@ -85,7 +85,7 @@ export default function Home() {
       <main>
         <Hero />
         <SubHero />
-        <VideoSection />
+        <CraftSteps />
         <Products onAddToCart={handleAddToCart} />
         <Features />
         <Blog />

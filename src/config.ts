@@ -161,6 +161,111 @@ export const videoSectionConfig: VideoSectionConfig = {
   backgroundImage: "/images/atelier.jpg",
 };
 
+// ─── Étapes de fabrication (scroll narratif) ────────────────────────────────────
+
+export interface CraftStep {
+  number: number;
+  title: string;
+  description: string;
+}
+
+export interface CraftStepsConfig {
+  tag: string;
+  heading: string;
+  introText: string;
+  backgroundImage: string;
+  /** Texte du compteur : {current} et {total} remplacés dynamiquement */
+  progressText: string;
+  ctaText: string;
+  ctaTarget: string;
+  steps: CraftStep[];
+}
+
+export const craftStepsConfig: CraftStepsConfig = {
+  tag: "Le savoir-faire",
+  heading: "12 gestes, une pièce, une histoire",
+  introText:
+    "Faites défiller — chaque création passe par ces douze gestes, dans notre atelier, sans raccourci.",
+  backgroundImage: "/images/atelier.jpg",
+  progressText: "Étape {current} sur {total}",
+  ctaText: "Découvrir la collection",
+  ctaTarget: "#products",
+  steps: [
+    {
+      number: 1,
+      title: "L'idée",
+      description:
+        "Tout commence par un croquis au crayon, inspiré d'une pierre, d'une lumière, d'une envie.",
+    },
+    {
+      number: 2,
+      title: "Le choix des pierres",
+      description:
+        "Chaque perle et chaque pierre est triée à la main — seules celles qui brillent sur l'établi sont gardées.",
+    },
+    {
+      number: 3,
+      title: "L'association des matières",
+      description:
+        "Perles d'eau douce, pierres naturelles, verre et dorures : les matières s'accordent par deux ou trois, jamais plus.",
+    },
+    {
+      number: 4,
+      title: "La coupe du fil",
+      description:
+        "Le fil de soie est coupé à la longueur exacte — ni trop tendu, ni trop lâche.",
+    },
+    {
+      number: 5,
+      title: "L'enfilage",
+      description:
+        "Perle après perle, le rythme s'installe. C'est le geste le plus long, et le plus méditatif.",
+    },
+    {
+      number: 6,
+      title: "Le nouage",
+      description:
+        "Entre chaque perle, un nœud discret protège la pierre et donne au bijou sa souplesse.",
+    },
+    {
+      number: 7,
+      title: "Le façonnage du fil",
+      description:
+        "Pour les bagues et pendentifs, le fil est plié et enroulé à la pince, au dixième de millimètre.",
+    },
+    {
+      number: 8,
+      title: "La soudure des fermoirs",
+      description:
+        "Le fermoir doré est fixé puis testé dix fois — il doit s'ouvrir sans effort et ne jamais lâcher.",
+    },
+    {
+      number: 9,
+      title: "Le contrôle qualité",
+      description:
+        "Sous la loupe, chaque nœud, chaque soudure est inspecté. Une pièce imparfaite ne quitte jamais l'atelier.",
+    },
+    {
+      number: 10,
+      title: "Le polissage",
+      description:
+        "Un chiffon doux, de la patience, et la pièce retrouve tout son éclat.",
+    },
+    {
+      number: 11,
+      title: "Le coffret",
+      description:
+        "La pièce est glissée dans son coffret cadeau, sur un lit de papier de soie.",
+    },
+    {
+      number: 12,
+      title: "L'envoi",
+      description:
+        "De nos mains aux vôtres — enveloppée avec le même soin que pour un membre de la famille.",
+    },
+  ],
+};
+
 // ─── Products ────────────────────────────────────────────────────────────────
 
 export interface Product {
