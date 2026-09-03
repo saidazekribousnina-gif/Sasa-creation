@@ -27,8 +27,8 @@ export const en: Translations = {
       { icon: "Instagram", label: "Instagram", href: "https://instagram.com" },
       { icon: "Facebook", label: "Facebook", href: "https://facebook.com" },
     ],
-    searchPlaceholder: "Search necklaces, earrings, rings…",
-    cartEmptyText: "Your cart is empty — come and discover our creations.",
+    searchPlaceholder: "Search for necklaces, earrings, rings…",
+    cartEmptyText: "Your cart is empty — come discover our creations.",
     cartCheckoutText: "Order on WhatsApp",
     continueShoppingText: "Continue shopping",
     menuBackgroundImage: "/images/atelier.jpg",
@@ -47,10 +47,10 @@ export const en: Translations = {
   },
   subHero: {
     tag: "Our philosophy",
-    heading: "Jewelry created slowly, for everyday life",
+    heading: "Jewelry made slowly, for everyday life",
     bodyParagraphs: [
-      "At Sasa Creation, no two pieces are exactly alike. Every necklace, every earring and every ring is shaped by hand at our small workbench — bead after bead, thread after thread — with carefully chosen stones, beads and metals.",
-      "We believe jewelry should be personal. Something you reach for every morning, carrying a memory, a gift, a moment. That's why we create everything slowly, in small batches, and finish each piece as if it were meant for our own family.",
+      "At Sasa Creation, no two pieces are exactly alike. Every necklace, every pair of earrings and every ring is shaped by hand at our small workbench — bead by bead, thread by thread — with carefully chosen stones, beads and metals.",
+      "We believe jewelry should feel personal. Something you reach for every morning, carrying a memory, a gift, a moment. That's why we make everything slowly, in small batches, and finish each piece as if it were meant for our own family.",
     ],
     linkText: "Discover our story",
     linkTarget: "#about",
@@ -111,7 +111,7 @@ export const en: Translations = {
         number: 5,
         title: "Stringing",
         description:
-          "Bead after bead, a rhythm sets in. It's the longest gesture, and the most meditative.",
+          "Bead after bead, a rhythm sets in. It's the longest gesture, and the most meditative one.",
       },
       {
         number: 6,
@@ -274,8 +274,7 @@ export const en: Translations = {
     tag: "Journal",
     heading: "Notes from the workshop",
     viewAllText: "See all articles",
-    readMoreText: "Read more",
-    posts: [
+    readMoreText: "Read more",    posts: [
       {
         id: 1,
         title: "How a Sasa Creation Necklace Is Born",
@@ -286,11 +285,11 @@ export const en: Translations = {
       },
       {
         id: 2,
-        title: "Caring for Your Artisanal Jewelry",
+        title: "Caring for Your Handmade Jewelry",
         date: "July 18, 2026",
         image: "/images/product-5.jpg",
         excerpt:
-          "A few simple habits — last on, first off, plus a soft cloth — are all it takes to keep your pearls and gold-plated finishes shining for years.",
+          "A few simple habits — put them on last, take them off first, plus a soft cloth — are all it takes to keep your pearls and gold-plated finishes shining for years.",
       },
       {
         id: 3,
@@ -312,13 +311,13 @@ export const en: Translations = {
         id: 1,
         question: "Is every piece really handmade?",
         answer:
-          "Yes. Every Sasa Creation piece is shaped by hand in our small workshop — from assembly to final packaging, including polishing. Slight variations are natural and make your piece unique.",
+          "Yes. Every Sasa Creation piece is shaped by hand in our small workshop — from assembly to polishing to final packaging. Slight variations are natural and make your piece unique.",
       },
       {
         id: 2,
         question: "What materials do you use?",
         answer:
-          "We work with freshwater pearls, natural stones, glass beads and gold-plated or sterling silver finishes. All our metals are nickel-free and suitable for most sensitive skin.",
+          "We work with freshwater pearls, natural stones, glass beads and gold-plated or sterling silver findings. All our metals are nickel-free and suitable for most sensitive skin.",
       },
       {
         id: 3,
@@ -336,7 +335,7 @@ export const en: Translations = {
         id: 5,
         question: "What happens if my jewelry breaks?",
         answer:
-          "We offer a one-year repair promise on every piece. If a clasp, thread or knot gives way, send it back and we'll repair it free of charge — you only pay for shipping.",
+          "We offer a one-year repair promise on every piece. If a clasp, thread or knot gives way, send it back and we'll repair it free of charge — you only cover shipping.",
       },
     ],
   },

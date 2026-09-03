@@ -125,7 +125,7 @@ const Contact = () => {
                   <Phone size={20} strokeWidth={1.5} className="text-[#8b6d4b]" />
                   <div>
                     <span className="block text-xs uppercase tracking-wider opacity-60 mb-1">{t.contact.phoneLabel}</span>
-                    <a href={`tel:${t.contact.phone}`} className="font-light hover:text-[#8b6d4b] transition-colors">
+                    <a href={`tel:${t.contact.phone}`} className="font-light hover:text-[#8b6d4b] transition-colors" dir="ltr">
                       {t.contact.phone}
                     </a>
                   </div>
