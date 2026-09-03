@@ -180,6 +180,7 @@ export const fr: Translations = {
     products: [
       {
         id: 1,
+        slug: "collier-luna-perle",
         name: "Collier Luna Perlé",
         price: 220,
         compareAtPrice: 260,
@@ -190,6 +191,7 @@ export const fr: Translations = {
       },
       {
         id: 2,
+        slug: "creoles-aurora",
         name: "Créoles Aurora",
         price: 140,
         compareAtPrice: 0,
@@ -200,6 +202,7 @@ export const fr: Translations = {
       },
       {
         id: 3,
+        slug: "bracelet-terra",
         name: "Bracelet Terra",
         price: 120,
         compareAtPrice: 0,
@@ -210,6 +213,7 @@ export const fr: Translations = {
       },
       {
         id: 4,
+        slug: "bague-solstice",
         name: "Bague Solstice",
         price: 160,
         compareAtPrice: 185,
@@ -220,6 +224,7 @@ export const fr: Translations = {
       },
       {
         id: 5,
+        slug: "collier-ivy",
         name: "Collier Ivy",
         price: 190,
         compareAtPrice: 0,
@@ -230,6 +235,7 @@ export const fr: Translations = {
       },
       {
         id: 6,
+        slug: "pendentifs-mira",
         name: "Pendentifs Mira",
         price: 150,
         compareAtPrice: 0,
@@ -240,6 +246,7 @@ export const fr: Translations = {
       },
       {
         id: 7,
+        slug: "bracelet-eclat",
         name: "Bracelet Éclat",
         price: 130,
         compareAtPrice: 0,
@@ -464,6 +471,31 @@ export const fr: Translations = {
       { icon: "Instagram", label: "Instagram", href: "https://instagram.com" },
       { icon: "Facebook", label: "Facebook", href: "https://facebook.com" },
     ],
+  },
+
+  pdp: {
+    backToCollectionText: "← Retour à la collection",
+    orderViaWhatsAppText: "Commander sur WhatsApp",
+    addToCartText: "Ajouter au panier",
+    addedToCartText: "Ajouté ✓",
+    stockText: "Plus que {n} en stock",
+    oneOfAKindBannerText: "Pièce unique — il n'en existera pas d'autre",
+    includesHeading: "Votre commande comprend",
+    includes: [
+      "La pièce, emballée dans son coffret cadeau",
+      "Une pochette en coton pour le transport",
+      "La carte de soin de l'atelier",
+      "La promesse de réparation d'un an",
+    ],
+    careHeading: "Prendre soin",
+    careText:
+      "Dernier bijou mis, premier retiré. Un chiffon doux après le port, à l'abri de l'humidité. C'est tout.",
+    shippingHeading: "Livraison",
+    shippingText:
+      "Expédiée sous 1 à 2 jours ouvrés, livrée partout en Tunisie en 2 à 4 jours. Livraison offerte dès 300 DT.",
+    shareText: "Partager",
+    notFoundText: "Cette pièce n'existe pas ou a déjà trouvé sa propriétaire.",
+    cartReminderText: "Votre panier vous attend — {n} pièce{s} prête{s} à commander",
   },
 
   languageNames: {

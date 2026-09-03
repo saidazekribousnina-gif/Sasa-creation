@@ -172,6 +172,7 @@ export const en: Translations = {
     products: [
       {
         id: 1,
+        slug: "collier-luna-perle",
         name: "Luna Beaded Necklace",
         price: 220,
         compareAtPrice: 260,
@@ -182,6 +183,7 @@ export const en: Translations = {
       },
       {
         id: 2,
+        slug: "creoles-aurora",
         name: "Aurora Hoop Earrings",
         price: 140,
         compareAtPrice: 0,
@@ -192,6 +194,7 @@ export const en: Translations = {
       },
       {
         id: 3,
+        slug: "bracelet-terra",
         name: "Terra Bracelet",
         price: 120,
         compareAtPrice: 0,
@@ -202,6 +205,7 @@ export const en: Translations = {
       },
       {
         id: 4,
+        slug: "bague-solstice",
         name: "Solstice Ring",
         price: 160,
         compareAtPrice: 185,
@@ -212,6 +216,7 @@ export const en: Translations = {
       },
       {
         id: 5,
+        slug: "collier-ivy",
         name: "Ivy Necklace",
         price: 190,
         compareAtPrice: 0,
@@ -222,6 +227,7 @@ export const en: Translations = {
       },
       {
         id: 6,
+        slug: "pendentifs-mira",
         name: "Mira Drop Earrings",
         price: 150,
         compareAtPrice: 0,
@@ -232,6 +238,7 @@ export const en: Translations = {
       },
       {
         id: 7,
+        slug: "bracelet-eclat",
         name: "Éclat Bracelet",
         price: 130,
         compareAtPrice: 0,
@@ -448,6 +455,30 @@ export const en: Translations = {
       { icon: "Instagram", label: "Instagram", href: "https://instagram.com" },
       { icon: "Facebook", label: "Facebook", href: "https://facebook.com" },
     ],
+  },
+  pdp: {
+    backToCollectionText: "← Back to the collection",
+    orderViaWhatsAppText: "Order on WhatsApp",
+    addToCartText: "Add to cart",
+    addedToCartText: "Added ✓",
+    stockText: "Only {n} left in stock",
+    oneOfAKindBannerText: "One of a kind — there will never be another",
+    includesHeading: "Your order includes",
+    includes: [
+      "The piece, boxed in its gift packaging",
+      "A cotton pouch for safekeeping",
+      "The workshop care card",
+      "The one-year repair promise",
+    ],
+    careHeading: "Taking care",
+    careText:
+      "Last on, first off. A soft cloth after wear, kept away from moisture. That's all it takes.",
+    shippingHeading: "Delivery",
+    shippingText:
+      "Shipped within 1–2 business days, delivered anywhere in Tunisia in 2 to 4 days. Free shipping over 300 DT.",
+    shareText: "Share",
+    notFoundText: "This piece doesn't exist — or has already found its owner.",
+    cartReminderText: "Your cart is waiting — {n} piece{s} ready to order",
   },
   languageNames: { fr: "Français", en: "English", ar: "العربية" },
 };

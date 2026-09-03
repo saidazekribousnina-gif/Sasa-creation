@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router';
 import { ShoppingBag, Check } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { trackEvent } from '../lib/analytics';
@@ -126,8 +127,8 @@ const Products = ({ onAddToCart }: ProductsProps) => {
                 }`}
                 style={{ transitionDelay: `${800 + index * 100}ms` }}
               >
-                {/* Image Container */}
-                <div className="relative h-[400px] overflow-hidden bg-[#faf6f0]">
+                {/* Image Container — cliquable vers la page produit */}
+                <Link to={`/produit/${product.slug}`} className="relative h-[400px] overflow-hidden bg-[#faf6f0] block" aria-label={product.name}>
                   <img
                     src={product.image}
                     alt={product.name}
@@ -148,12 +149,14 @@ const Products = ({ onAddToCart }: ProductsProps) => {
                       -{Math.round((1 - product.price / product.compareAtPrice) * 100)}%
                     </span>
                   )}
+                </Link>
 
-                  {/* Quick Add Button — toujours visible sur mobile, hover sur desktop */}
+                {/* Quick Add Button — toujours visible sur mobile, hover sur desktop */}
+                <div className="relative">
                   <button
                     onClick={() => handleAddToCart(product)}
                     aria-label={`${t.products.addToCartText} — ${product.name}`}
-                    className={`absolute bottom-4 left-1/2 -translate-x-1/2 min-h-[44px] px-6 py-3 flex items-center gap-2 text-sm tracking-wide transition-all duration-200 cursor-pointer ${
+                    className={`absolute bottom-4 left-1/2 -translate-x-1/2 min-h-[44px] px-6 py-3 flex items-center gap-2 text-sm tracking-wide transition-all duration-200 cursor-pointer z-10 ${
                       isAdded
                         ? 'bg-[#6b7b3c] text-white'
                         : 'bg-[#b06c4f] text-white md:opacity-0 md:translate-y-4 md:group-hover:opacity-100 md:group-hover:translate-y-0 hover:bg-[#8f5138]'
@@ -176,7 +179,11 @@ const Products = ({ onAddToCart }: ProductsProps) => {
                 {/* Product Info */}
                 <div className="p-5 bg-white">
                   <span className="text-xs text-[#8a7d6d] tracking-wide uppercase">{product.category}</span>
-                  <h3 className="font-serif text-xl text-[#2b2118] mt-1">{product.name}</h3>
+                  <h3 className="font-serif text-xl text-[#2b2118] mt-1">
+                    <Link to={`/produit/${product.slug}`} className="hover:text-[#b06c4f] transition-colors">
+                      {product.name}
+                    </Link>
+                  </h3>
 
                   {/* Prix avec ancrage */}
                   <div className="flex items-baseline gap-2 mt-2">

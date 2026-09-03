@@ -94,6 +94,8 @@ export interface CraftStepsConfig {
 export interface Product {
   id: number;
   name: string;
+  /** Slug d'URL — identique dans les 3 langues (partageabilité Instagram) */
+  slug: string;
   price: number;
   compareAtPrice: number;
   category: string;
@@ -240,6 +242,25 @@ export interface LanguageNames {
   ar: string;
 }
 
+export interface PdpConfig {
+  backToCollectionText: string;
+  orderViaWhatsAppText: string;
+  addToCartText: string;
+  addedToCartText: string;
+  stockText: string;
+  oneOfAKindBannerText: string;
+  includesHeading: string;
+  includes: string[];
+  careHeading: string;
+  careText: string;
+  shippingHeading: string;
+  shippingText: string;
+  shareText: string;
+  notFoundText: string;
+  /** Relance panier abandonné */
+  cartReminderText: string;
+}
+
 export interface Translations {
   site: SiteConfig;
   whatsapp: WhatsAppConfig;
@@ -256,6 +277,7 @@ export interface Translations {
   shipping: ShippingConfig;
   contact: ContactConfig;
   footer: FooterConfig;
+  pdp: PdpConfig;
   languageNames: LanguageNames;
 }
 

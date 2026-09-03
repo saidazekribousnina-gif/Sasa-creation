@@ -178,6 +178,7 @@ export const ar: Translations = {
     products: [
       {
         id: 1,
+        slug: "collier-luna-perle",
         name: "قلادة لونا المرصّعة",
         price: 220,
         compareAtPrice: 260,
@@ -188,6 +189,7 @@ export const ar: Translations = {
       },
       {
         id: 2,
+        slug: "creoles-aurora",
         name: "أقراط أورورا الدائرية",
         price: 140,
         compareAtPrice: 0,
@@ -198,6 +200,7 @@ export const ar: Translations = {
       },
       {
         id: 3,
+        slug: "bracelet-terra",
         name: "سوار تيرا",
         price: 120,
         compareAtPrice: 0,
@@ -208,6 +211,7 @@ export const ar: Translations = {
       },
       {
         id: 4,
+        slug: "bague-solstice",
         name: "خاتم سولستيس",
         price: 160,
         compareAtPrice: 185,
@@ -218,6 +222,7 @@ export const ar: Translations = {
       },
       {
         id: 5,
+        slug: "collier-ivy",
         name: "قلادة آيفي",
         price: 190,
         compareAtPrice: 0,
@@ -228,6 +233,7 @@ export const ar: Translations = {
       },
       {
         id: 6,
+        slug: "pendentifs-mira",
         name: "أقراط ميرا المتدلية",
         price: 150,
         compareAtPrice: 0,
@@ -238,6 +244,7 @@ export const ar: Translations = {
       },
       {
         id: 7,
+        slug: "bracelet-eclat",
         name: "سوار إيكلا",
         price: 130,
         compareAtPrice: 0,
@@ -462,6 +469,29 @@ export const ar: Translations = {
       { icon: "Instagram", label: "Instagram", href: "https://instagram.com" },
       { icon: "Facebook", label: "Facebook", href: "https://facebook.com" },
     ],
+  },
+
+  pdp: {
+    backToCollectionText: "← العودة إلى المجموعة",
+    orderViaWhatsAppText: "الطلب عبر واتساب",
+    addToCartText: "أضيفوا إلى السلة",
+    addedToCartText: "أُضيفت ✓",
+    stockText: "بقي {n} فقط في المخزون",
+    oneOfAKindBannerText: "قطعة فريدة — لن تتكرر أبدًا",
+    includesHeading: "يشمل طلبكم",
+    includes: [
+      "القطعة في علبة الهدية الخاصة بها",
+      "كيس قطني لحفظها",
+      "بطاقة العناية من الورشة",
+      "وعد الإصلاح المجاني لمدة عام",
+    ],
+    careHeading: "العناية بها",
+    careText: "تُلبس في الآخر وتُخلع في الأول، مع قماش ناعم بعد كل استخدام، بعيدًا عن الرطوبة. هذا كل شيء.",
+    shippingHeading: "التوصيل",
+    shippingText: "تُشحن خلال يوم إلى يومي عمل، وتصل إلى أي مكان في تونس خلال 2 إلى 4 أيام. توصيل مجاني من 300 دينار.",
+    shareText: "شاركوا",
+    notFoundText: "هذه القطعة غير موجودة — أو وجدت صاحبتها بالفعل.",
+    cartReminderText: "سلتكم تنتظركم — {n} قطعة جاهزة للطلب",
   },
 
   languageNames: {
