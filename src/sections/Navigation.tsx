@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ShoppingBag, X, Search, Instagram, Facebook, Twitter, MessageCircle } from 'lucide-react';
-import { navigationConfig, whatsappConfig } from '../config';
+import { navigationConfig, whatsappConfig, shippingConfig } from '../config';
 import { buildOrderMessage, buildWhatsAppUrl } from '../lib/whatsapp';
 
 interface CartItem {
@@ -51,10 +51,18 @@ const Navigation = ({ cartItems, onRemoveFromCart, onUpdateQuantity }: Navigatio
 
   return (
     <>
+      {/* Barre d'annonce (rareté + réciprocité) */}
+      {navigationConfig.announcementText && (
+        <div className="fixed top-0 left-0 right-0 z-[60] bg-[#2b2118] text-[#faf6f0] text-center text-xs md:text-sm tracking-wide py-2 px-4 font-medium">
+          {navigationConfig.announcementText}
+        </div>
+      )}
+
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled ? 'bg-white shadow-sm' : 'bg-transparent'
+        className={`fixed left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled ? 'bg-white/95 backdrop-blur-md shadow-sm' : 'bg-transparent'
         }`}
+        style={{ top: navigationConfig.announcementText ? '32px' : '0' }}
       >
         <div className="flex items-center justify-between h-[70px] px-6 md:px-12 lg:px-[170px]">
           <a
@@ -72,12 +80,13 @@ const Navigation = ({ cartItems, onRemoveFromCart, onUpdateQuantity }: Navigatio
           <div className="flex items-center gap-6">
             <button
               onClick={() => setIsCartOpen(true)}
-              className="relative btn-hover"
-              style={{ color: isScrolled ? '#8b6d4b' : '#fff' }}
+              aria-label={`Ouvrir le panier (${totalItems} article${totalItems > 1 ? 's' : ''})`}
+              className="relative btn-hover cursor-pointer"
+              style={{ color: isScrolled ? '#2b2118' : '#fff' }}
             >
               <ShoppingBag size={22} strokeWidth={1.5} />
               {totalItems > 0 && (
-                <span className="absolute -top-2 -right-2 w-5 h-5 flex items-center justify-center text-xs text-white bg-[#8b6d4b] rounded-full">
+                <span className="absolute -top-2 -right-2 w-5 h-5 flex items-center justify-center text-xs font-semibold text-white bg-[#b06c4f] rounded-full">
                   {totalItems}
                 </span>
               )}
@@ -263,7 +272,42 @@ const Navigation = ({ cartItems, onRemoveFromCart, onUpdateQuantity }: Navigatio
             </div>
 
             {cartItems.length > 0 && (
-              <div className="p-6 border-t bg-[#fafafa]">
+              <div className="p-6 border-t bg-[#faf6f0]">
+                {/* Barre progression livraison offerte — réciprocité */}
+                {shippingConfig.freeShippingThreshold > 0 && (
+                  <div className="mb-6">
+                    <p className="text-xs text-[#6b5d4f] mb-2">
+                      {totalPrice >= shippingConfig.freeShippingThreshold ? (
+                        <span className="font-semibold text-[#6b7b3c]">{shippingConfig.unlockedText}</span>
+                      ) : (
+                        shippingConfig.remainingText.replace(
+                          '{n}',
+                          (shippingConfig.freeShippingThreshold - totalPrice).toFixed(2)
+                        )
+                      )}
+                    </p>
+                    <div
+                      className="h-1.5 bg-[#efe7da] rounded-full overflow-hidden"
+                      role="progressbar"
+                      aria-valuenow={Math.min(100, (totalPrice / shippingConfig.freeShippingThreshold) * 100)}
+                      aria-valuemin={0}
+                      aria-valuemax={100}
+                      aria-label="Progression vers la livraison offerte"
+                    >
+                      <div
+                        className={`h-full rounded-full transition-all duration-500 ${
+                          totalPrice >= shippingConfig.freeShippingThreshold
+                            ? 'bg-[#6b7b3c]'
+                            : 'bg-[#b06c4f]'
+                        }`}
+                        style={{
+                          width: `${Math.min(100, (totalPrice / shippingConfig.freeShippingThreshold) * 100)}%`,
+                        }}
+                      />
+                    </div>
+                  </div>
+                )}
+
                 <div className="flex items-center justify-between mb-6">
                   <span className="text-lg">Sous-total</span>
                   <span className="font-serif text-xl">{totalPrice.toFixed(2)} DT</span>
@@ -273,9 +317,9 @@ const Navigation = ({ cartItems, onRemoveFromCart, onUpdateQuantity }: Navigatio
                     const message = buildOrderMessage(cartItems);
                     window.open(buildWhatsAppUrl(whatsappConfig.phoneNumber, message), '_blank', 'noopener,noreferrer');
                   }}
-                  className="w-full py-4 bg-[#8b6d4b] text-white font-light tracking-widest btn-hover flex items-center justify-center gap-2"
+                  className="w-full min-h-[52px] py-4 bg-[#b06c4f] text-white font-medium tracking-widest btn-hover flex items-center justify-center gap-2 cursor-pointer hover:bg-[#8f5138]"
                 >
-                  <MessageCircle size={16} />
+                  <MessageCircle size={18} />
                   {navigationConfig.cartCheckoutText}
                 </button>
                 <button

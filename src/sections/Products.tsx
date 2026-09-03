@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { ShoppingBag, Check } from 'lucide-react';
+import { ShoppingBag, Check, Star } from 'lucide-react';
 import { productsConfig } from '../config';
 import type { Product } from '../config';
 
@@ -55,7 +55,7 @@ const Products = ({ onAddToCart }: ProductsProps) => {
         {/* Header */}
         <div className="text-center mb-12">
           <span
-            className={`inline-block mb-4 text-sm tracking-[0.2em] text-[#8b6d4b] font-medium uppercase transition-all duration-700 ${
+            className={`inline-block mb-4 text-sm tracking-[0.2em] text-[#b06c4f] font-semibold uppercase transition-all duration-700 ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
             }`}
           >
@@ -91,10 +91,10 @@ const Products = ({ onAddToCart }: ProductsProps) => {
               <button
                 key={category}
                 onClick={() => setActiveCategory(category)}
-                className={`px-6 py-2 text-sm tracking-wide transition-all duration-300 ${
+                className={`min-h-[44px] px-6 py-2 text-sm tracking-wide transition-all duration-200 cursor-pointer ${
                   activeCategory === category
-                    ? 'bg-[#8b6d4b] text-white'
-                    : 'bg-[#fafafa] text-[#696969] hover:bg-[#f0f0f0]'
+                    ? 'bg-[#b06c4f] text-white'
+                    : 'bg-[#faf6f0] text-[#6b5d4f] hover:bg-[#f0e8db] border border-[#efe7da]'
                 }`}
               >
                 {category}
@@ -104,54 +104,102 @@ const Products = ({ onAddToCart }: ProductsProps) => {
         )}
 
         {/* Products Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filteredProducts.map((product, index) => (
-            <div
-              key={product.id}
-              className={`group bg-[#fafafa] border border-[#f5f5f5] transition-all duration-700 ${
-                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-              }`}
-              style={{ transitionDelay: `${800 + index * 100}ms` }}
-            >
-              {/* Image Container */}
-              <div className="relative h-[400px] overflow-hidden bg-[#fafafa]">
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-110"
-                />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredProducts.map((product, index) => {
+            const isLowStock = product.stock > 0 && product.stock <= productsConfig.lowStockThreshold;
+            const isAdded = addedItems.includes(product.id);
 
-                {/* Quick Add Button */}
-                <button
-                  onClick={() => handleAddToCart(product)}
-                  className={`absolute bottom-4 left-1/2 -translate-x-1/2 px-6 py-3 flex items-center gap-2 text-sm tracking-wide transition-all duration-300 ${
-                    addedItems.includes(product.id)
-                      ? 'bg-green-600 text-white'
-                      : 'bg-[#8b6d4b] text-white opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0'
-                  }`}
-                >
-                  {addedItems.includes(product.id) ? (
-                    <>
-                      <Check size={16} />
-                      {productsConfig.addedToCartText}
-                    </>
-                  ) : (
-                    <>
-                      <ShoppingBag size={16} />
-                      {productsConfig.addToCartText}
-                    </>
+            return (
+              <div
+                key={product.id}
+                className={`group bg-[#faf6f0] border border-[#efe7da] card-hover transition-all duration-700 ${
+                  isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                }`}
+                style={{ transitionDelay: `${800 + index * 100}ms` }}
+              >
+                {/* Image Container */}
+                <div className="relative h-[400px] overflow-hidden bg-[#faf6f0]">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    loading={index < 3 ? 'eager' : 'lazy'}
+                    className="w-full h-full object-cover transition-transform duration-300 ease-out group-hover:scale-105"
+                  />
+
+                  {/* Badge « Pièce unique » — rareté authentique */}
+                  {product.isOneOfAKind && (
+                    <span className="absolute top-4 left-4 px-3 py-1.5 bg-[#2b2118]/90 text-[#faf6f0] badge-unique rounded-full backdrop-blur-sm">
+                      {productsConfig.oneOfAKindText}
+                    </span>
                   )}
-                </button>
-              </div>
 
-              {/* Product Info */}
-              <div className="p-5 bg-white">
-                <span className="text-xs text-[#aea4a4] tracking-wide uppercase">{product.category}</span>
-                <h3 className="font-serif text-xl text-black mt-1">{product.name}</h3>
-                <p className="text-[#aea4a4] font-medium mt-2">{product.price.toFixed(2)} DT</p>
+                  {/* Ancrage prix — ancien prix barré */}
+                  {product.compareAtPrice > product.price && (
+                    <span className="absolute top-4 right-4 px-3 py-1.5 bg-[#b06c4f] text-white badge-unique rounded-full">
+                      -{Math.round((1 - product.price / product.compareAtPrice) * 100)}%
+                    </span>
+                  )}
+
+                  {/* Quick Add Button — toujours visible sur mobile, hover sur desktop */}
+                  <button
+                    onClick={() => handleAddToCart(product)}
+                    aria-label={`${productsConfig.addToCartText} — ${product.name}`}
+                    className={`absolute bottom-4 left-1/2 -translate-x-1/2 min-h-[44px] px-6 py-3 flex items-center gap-2 text-sm tracking-wide transition-all duration-200 cursor-pointer ${
+                      isAdded
+                        ? 'bg-[#6b7b3c] text-white'
+                        : 'bg-[#b06c4f] text-white md:opacity-0 md:translate-y-4 md:group-hover:opacity-100 md:group-hover:translate-y-0 hover:bg-[#8f5138]'
+                    }`}
+                  >
+                    {isAdded ? (
+                      <>
+                        <Check size={16} />
+                        {productsConfig.addedToCartText}
+                      </>
+                    ) : (
+                      <>
+                        <ShoppingBag size={16} />
+                        {productsConfig.addToCartText}
+                      </>
+                    )}
+                  </button>
+                </div>
+
+                {/* Product Info */}
+                <div className="p-5 bg-white">
+                  <span className="text-xs text-[#8a7d6d] tracking-wide uppercase">{product.category}</span>
+                  <h3 className="font-serif text-xl text-[#2b2118] mt-1">{product.name}</h3>
+
+                  {/* Note + avis — preuve sociale par produit */}
+                  {product.reviewCount > 0 && (
+                    <div className="flex items-center gap-1.5 mt-2">
+                      <Star size={14} className="fill-[#d9a441] text-[#d9a441]" aria-hidden="true" />
+                      <span className="text-sm font-semibold text-[#2b2118]">{product.rating.toFixed(1)}</span>
+                      <span className="text-xs text-[#8a7d6d]">
+                        ({product.reviewCount} {productsConfig.reviewsSuffix})
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Prix avec ancrage */}
+                  <div className="flex items-baseline gap-2 mt-2">
+                    <p className="text-[#8f5138] font-semibold">{product.price.toFixed(2)} DT</p>
+                    {product.compareAtPrice > product.price && (
+                      <p className="text-sm text-[#b0a394] line-through">
+                        {product.compareAtPrice.toFixed(2)} DT
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Urgence douce — stock réel, honnête */}
+                  {isLowStock && (
+                    <p className="text-xs text-[#b06c4f] font-medium mt-2 animate-gentle-pulse">
+                      {productsConfig.lowStockText.replace('{n}', String(product.stock))}
+                    </p>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* View All Link */}

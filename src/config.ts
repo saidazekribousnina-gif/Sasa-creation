@@ -53,6 +53,7 @@ export interface NavigationConfig {
   cartCheckoutText: string;
   continueShoppingText: string;
   menuBackgroundImage: string;
+  announcementText: string;
 }
 
 export const navigationConfig: NavigationConfig = {
@@ -70,9 +71,10 @@ export const navigationConfig: NavigationConfig = {
   ],
   searchPlaceholder: "Rechercher colliers, boucles, bagues…",
   cartEmptyText: "Votre panier est vide — venez découvrir nos créations.",
-  cartCheckoutText: "Passer la commande",
+  cartCheckoutText: "Commander sur WhatsApp",
   continueShoppingText: "Continuer mes achats",
   menuBackgroundImage: "/images/atelier.jpg",
+  announcementText: "Livraison offerte dès 300 DT · Pièces uniques faites main en Tunisie",
 };
 
 // ─── Hero ────────────────────────────────────────────────────────────────────
@@ -85,16 +87,23 @@ export interface HeroConfig {
   ctaSecondaryText: string;
   ctaSecondaryTarget: string;
   backgroundImage: string;
+  trustBadges: string[];
 }
 
 export const heroConfig: HeroConfig = {
-  tagline: "Bijoux artisanaux · Faits avec amour",
+  tagline: "Bijoux artisanaux · Faits main en Tunisie",
   title: "Chaque pièce raconte\nune histoire faite main",
   ctaPrimaryText: "Découvrir la collection",
   ctaPrimaryTarget: "#products",
   ctaSecondaryText: "Notre histoire",
   ctaSecondaryTarget: "#about",
   backgroundImage: "/images/hero-portrait.jpg",
+  trustBadges: [
+    "100% fait main",
+    "Pièces uniques",
+    "Livraison 2-4 jours",
+    "Réparation 1 an offerte",
+  ],
 };
 
 // ─── SubHero ─────────────────────────────────────────────────────────────────
@@ -163,8 +172,18 @@ export interface Product {
   id: number;
   name: string;
   price: number;
+  /** Prix « ancien » optionnel affiché barré (ancrage psychologique). 0 = absent. */
+  compareAtPrice: number;
   category: string;
   image: string;
+  /** Stock restant — urgence douce si <= lowStockThreshold */
+  stock: number;
+  /** Note moyenne sur 5 (preuve sociale) */
+  rating: number;
+  /** Nombre d'avis reçus */
+  reviewCount: number;
+  /** Vrai si la pièce est totalement unique (badge « Pièce unique ») */
+  isOneOfAKind: boolean;
 }
 
 export interface ProductsConfig {
@@ -176,6 +195,11 @@ export interface ProductsConfig {
   addedToCartText: string;
   categories: string[];
   products: Product[];
+  /** En dessous de ce stock, afficher l'indicateur d'urgence douce */
+  lowStockThreshold: number;
+  oneOfAKindText: string;
+  lowStockText: string;
+  reviewsSuffix: string;
 }
 
 export const productsConfig: ProductsConfig = {
@@ -187,55 +211,146 @@ export const productsConfig: ProductsConfig = {
   addToCartText: "Ajouter au panier",
   addedToCartText: "Ajouté ✓",
   categories: ["Tout", "Colliers", "Boucles d'oreilles", "Bracelets", "Bagues"],
+  lowStockThreshold: 3,
+  oneOfAKindText: "Pièce unique",
+  lowStockText: "Plus que {n} en stock",
+  reviewsSuffix: "avis",
   products: [
     {
       id: 1,
       name: "Collier Luna Perlé",
       price: 220,
+      compareAtPrice: 260,
       category: "Colliers",
       image: "/images/product-1.png",
+      stock: 2,
+      rating: 4.9,
+      reviewCount: 34,
+      isOneOfAKind: true,
     },
     {
       id: 2,
       name: "Créoles Aurora",
       price: 140,
+      compareAtPrice: 0,
       category: "Boucles d'oreilles",
       image: "/images/product-2.png",
+      stock: 5,
+      rating: 4.8,
+      reviewCount: 21,
+      isOneOfAKind: false,
     },
     {
       id: 3,
       name: "Bracelet Terra",
       price: 120,
+      compareAtPrice: 0,
       category: "Bracelets",
       image: "/images/product-3.png",
+      stock: 4,
+      rating: 4.7,
+      reviewCount: 18,
+      isOneOfAKind: false,
     },
     {
       id: 4,
       name: "Bague Solstice",
       price: 160,
+      compareAtPrice: 185,
       category: "Bagues",
       image: "/images/product-4.jpg",
+      stock: 1,
+      rating: 5.0,
+      reviewCount: 12,
+      isOneOfAKind: true,
     },
     {
       id: 5,
       name: "Collier Ivy",
       price: 190,
+      compareAtPrice: 0,
       category: "Colliers",
       image: "/images/product-5.jpg",
+      stock: 3,
+      rating: 4.8,
+      reviewCount: 27,
+      isOneOfAKind: false,
     },
     {
       id: 6,
       name: "Pendentifs Mira",
       price: 150,
+      compareAtPrice: 0,
       category: "Boucles d'oreilles",
       image: "/images/product-6.jpg",
+      stock: 6,
+      rating: 4.9,
+      reviewCount: 15,
+      isOneOfAKind: false,
     },
     {
       id: 7,
       name: "Bracelet Éclat",
       price: 130,
+      compareAtPrice: 0,
       category: "Bracelets",
       image: "/images/product-7.jpg",
+      stock: 2,
+      rating: 4.6,
+      reviewCount: 9,
+      isOneOfAKind: true,
+    },
+  ],
+};
+
+// ─── Testimonials (preuve sociale) ─────────────────────────────────────────────
+
+export interface Testimonial {
+  id: number;
+  name: string;
+  location: string;
+  rating: number;
+  text: string;
+  purchasedItem: string;
+}
+
+export interface TestimonialsConfig {
+  tag: string;
+  heading: string;
+  clientsLabel: string;
+  clientsCount: number;
+  testimonials: Testimonial[];
+}
+
+export const testimonialsConfig: TestimonialsConfig = {
+  tag: "Elles portent Sasa",
+  heading: "Ce que disent nos clientes",
+  clientsLabel: "clientes heureuses",
+  clientsCount: 480,
+  testimonials: [
+    {
+      id: 1,
+      name: "Amira",
+      location: "Tunis",
+      rating: 5,
+      text: "Le collier Luna est encore plus beau en vrai. On sent le travail minutieux, chaque perle est parfaite. Je le porte tous les jours depuis 3 mois et il n'a pas bougé d'un millimètre.",
+      purchasedItem: "Collier Luna Perlé",
+    },
+    {
+      id: 2,
+      name: "Yosr",
+      location: "Sousse",
+      rating: 5,
+      text: "Commande passée un soir sur WhatsApp, livrée en 2 jours dans un joli coffret cadeau. Sasa a même ajusté la longueur du bracelet pour mon poignet. Un vrai service artisanal.",
+      purchasedItem: "Bracelet Terra",
+    },
+    {
+      id: 3,
+      name: "Rym",
+      location: "Sfax",
+      rating: 5,
+      text: "J'ai offert la bague Solstice à ma sœur — elle l'adore et moi aussi. Savoir que c'est une pièce unique, faite main, ça change tout. On ne le trouve nulle part ailleurs.",
+      purchasedItem: "Bague Solstice",
     },
   ],
 };
@@ -460,6 +575,22 @@ export interface ContactConfig {
   successMessage: string;
   backgroundImage: string;
 }
+
+// ─── Livraison (réciprocité — seuil gratuit) ────────────────────────────────────
+
+export interface ShippingConfig {
+  freeShippingThreshold: number;
+  progressText: string;
+  unlockedText: string;
+  remainingText: string;
+}
+
+export const shippingConfig: ShippingConfig = {
+  freeShippingThreshold: 300,
+  progressText: "Livraison offerte",
+  unlockedText: "🎉 Livraison offerte débloquée !",
+  remainingText: "Encore {n} DT pour la livraison offerte",
+};
 
 export const contactConfig: ContactConfig = {
   heading: "Créons quelque chose ensemble",

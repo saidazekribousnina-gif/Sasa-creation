@@ -79,7 +79,7 @@ const Hero = () => {
                 e.preventDefault();
                 document.querySelector(heroConfig.ctaPrimaryTarget)?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="px-12 py-4 bg-[#8b6d4b] text-white font-light tracking-widest text-sm btn-hover"
+              className="px-12 py-4 bg-[#b06c4f] text-white font-medium tracking-widest text-sm btn-hover cursor-pointer"
             >
               {heroConfig.ctaPrimaryText}
             </a>
@@ -91,12 +91,31 @@ const Hero = () => {
                 e.preventDefault();
                 document.querySelector(heroConfig.ctaSecondaryTarget)?.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="px-12 py-4 border border-white text-white font-light tracking-widest text-sm hover:bg-white hover:text-black transition-all duration-300"
+              className="px-12 py-4 border border-white text-white font-medium tracking-widest text-sm hover:bg-white hover:text-[#2b2118] transition-all duration-200 cursor-pointer"
             >
               {heroConfig.ctaSecondaryText}
             </a>
           )}
         </div>
+
+        {/* Badges confiance */}
+        {heroConfig.trustBadges.length > 0 && (
+          <div
+            className={`mt-12 flex flex-wrap justify-center gap-3 max-w-2xl transition-all duration-1000 ${
+              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            }`}
+            style={{ transitionDelay: '1100ms' }}
+          >
+            {heroConfig.trustBadges.map((badge) => (
+              <span
+                key={badge}
+                className="px-4 py-2 text-xs tracking-wide text-white/95 bg-white/10 backdrop-blur-sm border border-white/25 rounded-full"
+              >
+                {badge}
+              </span>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Scroll Indicator */}
