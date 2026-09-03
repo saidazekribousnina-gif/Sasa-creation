@@ -178,10 +178,6 @@ export interface Product {
   image: string;
   /** Stock restant — urgence douce si <= lowStockThreshold */
   stock: number;
-  /** Note moyenne sur 5 (preuve sociale) */
-  rating: number;
-  /** Nombre d'avis reçus */
-  reviewCount: number;
   /** Vrai si la pièce est totalement unique (badge « Pièce unique ») */
   isOneOfAKind: boolean;
 }
@@ -199,7 +195,6 @@ export interface ProductsConfig {
   lowStockThreshold: number;
   oneOfAKindText: string;
   lowStockText: string;
-  reviewsSuffix: string;
 }
 
 export const productsConfig: ProductsConfig = {
@@ -214,7 +209,6 @@ export const productsConfig: ProductsConfig = {
   lowStockThreshold: 3,
   oneOfAKindText: "Pièce unique",
   lowStockText: "Plus que {n} en stock",
-  reviewsSuffix: "avis",
   products: [
     {
       id: 1,
@@ -224,8 +218,6 @@ export const productsConfig: ProductsConfig = {
       category: "Colliers",
       image: "/images/product-1.png",
       stock: 2,
-      rating: 4.9,
-      reviewCount: 34,
       isOneOfAKind: true,
     },
     {
@@ -236,8 +228,6 @@ export const productsConfig: ProductsConfig = {
       category: "Boucles d'oreilles",
       image: "/images/product-2.png",
       stock: 5,
-      rating: 4.8,
-      reviewCount: 21,
       isOneOfAKind: false,
     },
     {
@@ -248,8 +238,6 @@ export const productsConfig: ProductsConfig = {
       category: "Bracelets",
       image: "/images/product-3.png",
       stock: 4,
-      rating: 4.7,
-      reviewCount: 18,
       isOneOfAKind: false,
     },
     {
@@ -260,8 +248,6 @@ export const productsConfig: ProductsConfig = {
       category: "Bagues",
       image: "/images/product-4.jpg",
       stock: 1,
-      rating: 5.0,
-      reviewCount: 12,
       isOneOfAKind: true,
     },
     {
@@ -272,8 +258,6 @@ export const productsConfig: ProductsConfig = {
       category: "Colliers",
       image: "/images/product-5.jpg",
       stock: 3,
-      rating: 4.8,
-      reviewCount: 27,
       isOneOfAKind: false,
     },
     {
@@ -284,8 +268,6 @@ export const productsConfig: ProductsConfig = {
       category: "Boucles d'oreilles",
       image: "/images/product-6.jpg",
       stock: 6,
-      rating: 4.9,
-      reviewCount: 15,
       isOneOfAKind: false,
     },
     {
@@ -296,61 +278,7 @@ export const productsConfig: ProductsConfig = {
       category: "Bracelets",
       image: "/images/product-7.jpg",
       stock: 2,
-      rating: 4.6,
-      reviewCount: 9,
       isOneOfAKind: true,
-    },
-  ],
-};
-
-// ─── Testimonials (preuve sociale) ─────────────────────────────────────────────
-
-export interface Testimonial {
-  id: number;
-  name: string;
-  location: string;
-  rating: number;
-  text: string;
-  purchasedItem: string;
-}
-
-export interface TestimonialsConfig {
-  tag: string;
-  heading: string;
-  clientsLabel: string;
-  clientsCount: number;
-  testimonials: Testimonial[];
-}
-
-export const testimonialsConfig: TestimonialsConfig = {
-  tag: "Elles portent Sasa",
-  heading: "Ce que disent nos clientes",
-  clientsLabel: "clientes heureuses",
-  clientsCount: 480,
-  testimonials: [
-    {
-      id: 1,
-      name: "Amira",
-      location: "Tunis",
-      rating: 5,
-      text: "Le collier Luna est encore plus beau en vrai. On sent le travail minutieux, chaque perle est parfaite. Je le porte tous les jours depuis 3 mois et il n'a pas bougé d'un millimètre.",
-      purchasedItem: "Collier Luna Perlé",
-    },
-    {
-      id: 2,
-      name: "Yosr",
-      location: "Sousse",
-      rating: 5,
-      text: "Commande passée un soir sur WhatsApp, livrée en 2 jours dans un joli coffret cadeau. Sasa a même ajusté la longueur du bracelet pour mon poignet. Un vrai service artisanal.",
-      purchasedItem: "Bracelet Terra",
-    },
-    {
-      id: 3,
-      name: "Rym",
-      location: "Sfax",
-      rating: 5,
-      text: "J'ai offert la bague Solstice à ma sœur — elle l'adore et moi aussi. Savoir que c'est une pièce unique, faite main, ça change tout. On ne le trouve nulle part ailleurs.",
-      purchasedItem: "Bague Solstice",
     },
   ],
 };

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { ShoppingBag, Check, Star } from 'lucide-react';
+import { ShoppingBag, Check } from 'lucide-react';
 import { productsConfig } from '../config';
 import type { Product } from '../config';
 
@@ -168,17 +168,6 @@ const Products = ({ onAddToCart }: ProductsProps) => {
                 <div className="p-5 bg-white">
                   <span className="text-xs text-[#8a7d6d] tracking-wide uppercase">{product.category}</span>
                   <h3 className="font-serif text-xl text-[#2b2118] mt-1">{product.name}</h3>
-
-                  {/* Note + avis — preuve sociale par produit */}
-                  {product.reviewCount > 0 && (
-                    <div className="flex items-center gap-1.5 mt-2">
-                      <Star size={14} className="fill-[#d9a441] text-[#d9a441]" aria-hidden="true" />
-                      <span className="text-sm font-semibold text-[#2b2118]">{product.rating.toFixed(1)}</span>
-                      <span className="text-xs text-[#8a7d6d]">
-                        ({product.reviewCount} {productsConfig.reviewsSuffix})
-                      </span>
-                    </div>
-                  )}
 
                   {/* Prix avec ancrage */}
                   <div className="flex items-baseline gap-2 mt-2">

@@ -12,7 +12,6 @@ import FAQ from '../sections/FAQ';
 import About from '../sections/About';
 import Contact from '../sections/Contact';
 import Footer from '../sections/Footer';
-import Testimonials from '../sections/Testimonials';
 import WhatsAppFloat from '../sections/WhatsAppFloat';
 import { getSafeStorage, loadCart, saveCart } from '../lib/cartStorage';
 
@@ -86,7 +85,6 @@ export default function Home() {
         <SubHero />
         <VideoSection />
         <Products onAddToCart={handleAddToCart} />
-        <Testimonials />
         <Features />
         <Blog />
         <FAQ />
