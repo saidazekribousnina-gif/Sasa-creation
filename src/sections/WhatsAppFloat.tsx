@@ -1,16 +1,18 @@
 import { MessageCircle } from 'lucide-react';
-import { whatsappConfig } from '../config';
+import { useLanguage } from '../i18n/LanguageContext';
 import { buildWhatsAppUrl } from '../lib/whatsapp';
 import { hapticFeedback } from '../lib/haptics';
 
 const WhatsAppFloat = () => {
-  if (!whatsappConfig.phoneNumber) return null;
+  const { t } = useLanguage();
+
+  if (!t.whatsapp.phoneNumber) return null;
 
   const openChat = () => {
     hapticFeedback(10);
-    const message = whatsappConfig.contactGreeting;
+    const message = t.whatsapp.contactGreeting;
     window.open(
-      buildWhatsAppUrl(whatsappConfig.phoneNumber, message),
+      buildWhatsAppUrl(t.whatsapp.phoneNumber, message),
       '_blank',
       'noopener,noreferrer'
     );
@@ -19,8 +21,7 @@ const WhatsAppFloat = () => {
   return (
     <button
       onClick={openChat}
-      aria-label="Discuter sur WhatsApp"
-      title="Une question ? Écrivez-nous sur WhatsApp"
+      aria-label={t.whatsapp.contactGreeting}
       className="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-[#25D366] text-white shadow-[0_6px_24px_rgba(37,211,102,0.45)] flex items-center justify-center hover:scale-110 active:scale-90 transition-transform duration-200 ease-[cubic-bezier(0.32,0.72,0,1)] cursor-pointer"
     >
       <MessageCircle size={26} strokeWidth={1.8} />

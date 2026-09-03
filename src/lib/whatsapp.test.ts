@@ -5,7 +5,13 @@ import {
   buildOrderMessage,
   buildWhatsAppUrl,
 } from './whatsapp';
-import { whatsappConfig } from '../config';
+import type { WhatsAppTexts } from './whatsapp';
+
+const frTexts: WhatsAppTexts = {
+  orderGreeting: 'Bonjour Sasa Creation ! Je souhaite passer une commande :',
+  orderTotalLabel: 'Total',
+  orderOutro: 'Merci de confirmer ma commande. 🙏',
+};
 
 describe('normalizePhoneNumber', () => {
   it('retire tous les caractères non numériques', () => {
@@ -26,20 +32,37 @@ describe('formatPrice', () => {
 
 describe('buildOrderMessage', () => {
   it('construit un message complet avec articles, total et formules de politesse', () => {
-    const message = buildOrderMessage([
-      { name: 'Collier Luna Perlé', quantity: 2, price: 220 },
-      { name: 'Bracelet Terra', quantity: 1, price: 120 },
-    ]);
+    const message = buildOrderMessage(
+      [
+        { name: 'Collier Luna Perlé', quantity: 2, price: 220 },
+        { name: 'Bracelet Terra', quantity: 1, price: 120 },
+      ],
+      frTexts
+    );
 
-    expect(message).toContain(whatsappConfig.orderGreeting);
+    expect(message).toContain(frTexts.orderGreeting);
     expect(message).toContain('- Collier Luna Perlé × 2 — 440.00 DT');
     expect(message).toContain('- Bracelet Terra × 1 — 120.00 DT');
     expect(message).toContain('Total : 560.00 DT');
-    expect(message).toContain(whatsappConfig.orderOutro);
+    expect(message).toContain(frTexts.orderOutro);
+  });
+
+  it('utilise les textes fournis (i18n)', () => {
+    const enTexts: WhatsAppTexts = {
+      orderGreeting: 'Hello Sasa Creation! I would like to order:',
+      orderTotalLabel: 'Total',
+      orderOutro: 'Please confirm my order. 🙏',
+    };
+    const message = buildOrderMessage(
+      [{ name: 'Terra Bracelet', quantity: 1, price: 120 }],
+      enTexts
+    );
+    expect(message).toContain('Hello Sasa Creation!');
+    expect(message).toContain('Total : 120.00 DT');
   });
 
   it('gère un panier vide', () => {
-    const message = buildOrderMessage([]);
+    const message = buildOrderMessage([], frTexts);
     expect(message).toContain('Total : 0.00 DT');
   });
 });
@@ -56,5 +79,10 @@ describe('buildWhatsAppUrl', () => {
   it('encode correctement les caractères spéciaux', () => {
     const url = buildWhatsAppUrl('+21690271601', 'É à ç — 🙏');
     expect(url).toContain(encodeURIComponent('É à ç — 🙏'));
+  });
+
+  it('encode l\'arabe sans perte', () => {
+    const url = buildWhatsAppUrl('+21690271601', 'مرحباً، أريد طلب قطعة');
+    expect(url).toContain(encodeURIComponent('مرحباً، أريد طلب قطعة'));
   });
 });

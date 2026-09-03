@@ -1,15 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
-import { craftStepsConfig } from '../config';
-import type { CraftStep } from '../config';
+import { useLanguage } from '../i18n/LanguageContext';
+import type { CraftStep } from '../i18n/types';
 
 interface StepProps {
   step: CraftStep;
   total: number;
   isActive: boolean;
   onVisible: (number: number) => void;
+  progressText: string;
 }
 
-const StepItem = ({ step, total, isActive, onVisible }: StepProps) => {
+const StepItem = ({ step, total, isActive, onVisible, progressText }: StepProps) => {
   const stepRef = useRef<HTMLDivElement>(null);
   const hasReported = useRef(false);
 
@@ -62,7 +63,7 @@ const StepItem = ({ step, total, isActive, onVisible }: StepProps) => {
         </div>
       </div>
       <span className="sr-only">
-        {craftStepsConfig.progressText
+        {progressText
           .replace('{current}', String(step.number))
           .replace('{total}', String(total))}
       </span>
@@ -71,6 +72,7 @@ const StepItem = ({ step, total, isActive, onVisible }: StepProps) => {
 };
 
 const CraftSteps = () => {
+  const { t } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const [isHeaderVisible, setIsHeaderVisible] = useState(false);
@@ -98,9 +100,9 @@ const CraftSteps = () => {
     setCurrentStep(stepNumber);
   };
 
-  if (craftStepsConfig.steps.length === 0) return null;
+  if (t.craftSteps.steps.length === 0) return null;
 
-  const progressPercent = (currentStep / craftStepsConfig.steps.length) * 100;
+  const progressPercent = (currentStep / t.craftSteps.steps.length) * 100;
 
   return (
     <section
@@ -117,13 +119,13 @@ const CraftSteps = () => {
           }`}
         >
           <span className="inline-block mb-5 text-sm tracking-[0.2em] text-[#b06c4f] font-semibold uppercase">
-            {craftStepsConfig.tag}
+            {t.craftSteps.tag}
           </span>
           <h2 className="font-serif text-4xl md:text-6xl text-[#2b2118] leading-tight mb-6">
-            {craftStepsConfig.heading}
+            {t.craftSteps.heading}
           </h2>
           <p className="text-[#6b5d4f] text-lg leading-relaxed">
-            {craftStepsConfig.introText}
+            {t.craftSteps.introText}
           </p>
         </div>
       </div>
@@ -141,7 +143,7 @@ const CraftSteps = () => {
                 >
                   <div
                     className="w-full h-full bg-cover bg-center scale-105"
-                    style={{ backgroundImage: `url(${craftStepsConfig.backgroundImage})` }}
+                    style={{ backgroundImage: `url(${t.craftSteps.backgroundImage})` }}
                   />
                   <div className="absolute inset-0 bg-[#2b2118]/25" />
                 </div>
@@ -149,9 +151,9 @@ const CraftSteps = () => {
                 {/* Compteur d'étape — flottant sur l'image */}
                 <div className="relative z-10 -ml-14 bg-[#faf6f0] px-8 py-6 inline-block shadow-[0_10px_40px_rgba(43,33,24,0.15)]">
                   <p className="text-xs tracking-[0.15em] uppercase text-[#8a7d6d] mb-1">
-                    {craftStepsConfig.progressText
+                    {t.craftSteps.progressText
                       .replace('{current}', String(currentStep))
-                      .replace('{total}', String(craftStepsConfig.steps.length))}
+                      .replace('{total}', String(t.craftSteps.steps.length))}
                   </p>
                   <p className="font-serif text-5xl text-[#2b2118] leading-none">
                     {String(currentStep).padStart(2, '0')}
@@ -177,32 +179,33 @@ const CraftSteps = () => {
               aria-hidden="true"
             />
 
-            {craftStepsConfig.steps.map((step) => (
+            {t.craftSteps.steps.map((step) => (
               <StepItem
                 key={step.number}
                 step={step}
-                total={craftStepsConfig.steps.length}
+                total={t.craftSteps.steps.length}
                 isActive={currentStep === step.number}
                 onVisible={handleStepVisible}
+                progressText={t.craftSteps.progressText}
               />
             ))}
 
             {/* CTA final — la boucle est bouclée */}
-            {craftStepsConfig.ctaText && (
+            {t.craftSteps.ctaText && (
               <div className="pt-8 pb-24 lg:min-h-[50vh] lg:flex lg:items-center">
                 <div className="text-center w-full">
                   <p className="font-serif text-3xl lg:text-4xl text-[#2b2118] mb-8 italic">
                     « Et voilà. Votre pièce n'existait pas hier. »
                   </p>
                   <a
-                    href={craftStepsConfig.ctaTarget}
+                    href={t.craftSteps.ctaTarget}
                     onClick={(e) => {
                       e.preventDefault();
-                      document.querySelector(craftStepsConfig.ctaTarget)?.scrollIntoView({ behavior: 'smooth' });
+                      document.querySelector(t.craftSteps.ctaTarget)?.scrollIntoView({ behavior: 'smooth' });
                     }}
                     className="inline-flex items-center justify-center px-10 py-4 bg-[#b06c4f] text-white font-medium tracking-widest text-sm btn-hover cursor-pointer hover:bg-[#8f5138]"
                   >
-                    {craftStepsConfig.ctaText}
+                    {t.craftSteps.ctaText}
                   </a>
                 </div>
               </div>
@@ -214,9 +217,9 @@ const CraftSteps = () => {
         <div className="lg:hidden sticky top-[70px] z-30 bg-[#faf6f0]/95 backdrop-blur-md border-b border-[#efe7da]">
           <div className="max-w-[1400px] mx-auto px-6 py-3 flex items-center justify-between">
             <p className="text-xs tracking-[0.15em] uppercase text-[#8a7d6d]">
-              {craftStepsConfig.progressText
+              {t.craftSteps.progressText
                 .replace('{current}', String(currentStep))
-                .replace('{total}', String(craftStepsConfig.steps.length))}
+                .replace('{total}', String(t.craftSteps.steps.length))}
             </p>
             <div className="w-24 h-1 bg-[#efe7da] rounded-full overflow-hidden">
               <div

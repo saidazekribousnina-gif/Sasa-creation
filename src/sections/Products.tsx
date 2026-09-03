@@ -1,16 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
 import { ShoppingBag, Check } from 'lucide-react';
-import { productsConfig } from '../config';
-import type { Product } from '../config';
+import { useLanguage } from '../i18n/LanguageContext';
+import type { Product } from '../i18n/types';
 
 interface ProductsProps {
   onAddToCart: (product: Product) => void;
 }
 
 const Products = ({ onAddToCart }: ProductsProps) => {
+  const { t } = useLanguage();
   const sectionRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
-  const [activeCategory, setActiveCategory] = useState(productsConfig.categories[0] || 'All');
+  const [activeCategoryIndex, setActiveCategoryIndex] = useState(0);
   const [addedItems, setAddedItems] = useState<number[]>([]);
 
   useEffect(() => {
@@ -31,9 +32,11 @@ const Products = ({ onAddToCart }: ProductsProps) => {
     return () => observer.disconnect();
   }, []);
 
-  const filteredProducts = activeCategory === productsConfig.categories[0]
-    ? productsConfig.products
-    : productsConfig.products.filter(p => p.category === activeCategory);
+  const activeCategory = t.products.categories[activeCategoryIndex] ?? t.products.categories[0];
+
+  const filteredProducts = activeCategoryIndex === 0
+    ? t.products.products
+    : t.products.products.filter(p => p.category === activeCategory);
 
   const handleAddToCart = (product: Product) => {
     onAddToCart(product);
@@ -43,7 +46,7 @@ const Products = ({ onAddToCart }: ProductsProps) => {
     }, 2000);
   };
 
-  if (!productsConfig.heading && productsConfig.products.length === 0) return null;
+  if (!t.products.heading && t.products.products.length === 0) return null;
 
   return (
     <section
@@ -59,7 +62,7 @@ const Products = ({ onAddToCart }: ProductsProps) => {
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
             }`}
           >
-            {productsConfig.tag}
+            {t.products.tag}
           </span>
           <h2
             className={`font-serif text-4xl md:text-5xl text-black mb-6 transition-all duration-700 ${
@@ -67,7 +70,7 @@ const Products = ({ onAddToCart }: ProductsProps) => {
             }`}
             style={{ transitionDelay: '200ms' }}
           >
-            {productsConfig.heading}
+            {t.products.heading}
           </h2>
           <p
             className={`max-w-2xl mx-auto text-[#696969] text-lg transition-all duration-700 ${
@@ -75,22 +78,22 @@ const Products = ({ onAddToCart }: ProductsProps) => {
             }`}
             style={{ transitionDelay: '400ms' }}
           >
-            {productsConfig.description}
+            {t.products.description}
           </p>
         </div>
 
         {/* Category Filter */}
-        {productsConfig.categories.length > 0 && (
+        {t.products.categories.length > 0 && (
           <div
             className={`flex flex-wrap justify-center gap-4 mb-12 transition-all duration-700 ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
             }`}
             style={{ transitionDelay: '600ms' }}
           >
-            {productsConfig.categories.map((category) => (
+            {t.products.categories.map((category, index) => (
               <button
                 key={category}
-                onClick={() => setActiveCategory(category)}
+                onClick={() => setActiveCategoryIndex(index)}
                 className={`min-h-[44px] px-6 py-2 text-sm tracking-wide transition-all duration-200 cursor-pointer ${
                   activeCategory === category
                     ? 'bg-[#b06c4f] text-white'
@@ -106,7 +109,7 @@ const Products = ({ onAddToCart }: ProductsProps) => {
         {/* Products Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredProducts.map((product, index) => {
-            const isLowStock = product.stock > 0 && product.stock <= productsConfig.lowStockThreshold;
+            const isLowStock = product.stock > 0 && product.stock <= t.products.lowStockThreshold;
             const isAdded = addedItems.includes(product.id);
 
             return (
@@ -129,7 +132,7 @@ const Products = ({ onAddToCart }: ProductsProps) => {
                   {/* Badge « Pièce unique » — rareté authentique */}
                   {product.isOneOfAKind && (
                     <span className="absolute top-4 left-4 px-3 py-1.5 bg-[#2b2118]/90 text-[#faf6f0] badge-unique rounded-full backdrop-blur-sm">
-                      {productsConfig.oneOfAKindText}
+                      {t.products.oneOfAKindText}
                     </span>
                   )}
 
@@ -143,7 +146,7 @@ const Products = ({ onAddToCart }: ProductsProps) => {
                   {/* Quick Add Button — toujours visible sur mobile, hover sur desktop */}
                   <button
                     onClick={() => handleAddToCart(product)}
-                    aria-label={`${productsConfig.addToCartText} — ${product.name}`}
+                    aria-label={`${t.products.addToCartText} — ${product.name}`}
                     className={`absolute bottom-4 left-1/2 -translate-x-1/2 min-h-[44px] px-6 py-3 flex items-center gap-2 text-sm tracking-wide transition-all duration-200 cursor-pointer ${
                       isAdded
                         ? 'bg-[#6b7b3c] text-white'
@@ -153,12 +156,12 @@ const Products = ({ onAddToCart }: ProductsProps) => {
                     {isAdded ? (
                       <>
                         <Check size={16} />
-                        {productsConfig.addedToCartText}
+                        {t.products.addedToCartText}
                       </>
                     ) : (
                       <>
                         <ShoppingBag size={16} />
-                        {productsConfig.addToCartText}
+                        {t.products.addToCartText}
                       </>
                     )}
                   </button>
@@ -182,7 +185,7 @@ const Products = ({ onAddToCart }: ProductsProps) => {
                   {/* Urgence douce — stock réel, honnête */}
                   {isLowStock && (
                     <p className="text-xs text-[#b06c4f] font-medium mt-2 animate-gentle-pulse">
-                      {productsConfig.lowStockText.replace('{n}', String(product.stock))}
+                      {t.products.lowStockText.replace('{n}', String(product.stock))}
                     </p>
                   )}
                 </div>
@@ -192,7 +195,7 @@ const Products = ({ onAddToCart }: ProductsProps) => {
         </div>
 
         {/* View All Link */}
-        {productsConfig.viewAllText && (
+        {t.products.viewAllText && (
           <div
             className={`text-center mt-12 transition-all duration-700 ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
@@ -200,7 +203,7 @@ const Products = ({ onAddToCart }: ProductsProps) => {
             style={{ transitionDelay: '1200ms' }}
           >
             <button className="px-12 py-4 border-2 border-[#8b6d4b] text-[#8b6d4b] font-light tracking-widest text-sm hover:bg-[#8b6d4b] hover:text-white transition-all duration-300">
-              {productsConfig.viewAllText}
+              {t.products.viewAllText}
             </button>
           </div>
         )}

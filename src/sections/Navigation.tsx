@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { ShoppingBag, X, Search, Instagram, Facebook, Twitter, MessageCircle } from 'lucide-react';
-import { navigationConfig, whatsappConfig, shippingConfig } from '../config';
+import { useLanguage } from '../i18n/LanguageContext';
+import { LANGUAGES } from '../i18n/types';
+import type { Language } from '../i18n/types';
 import { buildOrderMessage, buildWhatsAppUrl } from '../lib/whatsapp';
 
 interface CartItem {
@@ -24,6 +26,7 @@ const iconMap: Record<string, React.ComponentType<{ size?: number; strokeWidth?:
 };
 
 const Navigation = ({ cartItems, onRemoveFromCart, onUpdateQuantity }: NavigationProps) => {
+  const { language, setLanguage, t } = useLanguage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -43,7 +46,7 @@ const Navigation = ({ cartItems, onRemoveFromCart, onUpdateQuantity }: Navigatio
     return () => clearTimeout(timer);
   }, []);
 
-  if (!navigationConfig.brandName) return null;
+  if (!t.navigation.brandName) return null;
 
   const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const totalPrice = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -59,9 +62,9 @@ const Navigation = ({ cartItems, onRemoveFromCart, onUpdateQuantity }: Navigatio
   return (
     <>
       {/* Barre d'annonce — s'efface d'elle-même après 5 secondes (retenue) */}
-      {navigationConfig.announcementText && showAnnouncement && (
+      {t.navigation.announcementText && showAnnouncement && (
         <div className="fixed top-0 left-0 right-0 z-[60] bg-[#2b2118] text-[#faf6f0] text-center text-xs md:text-sm tracking-wide py-2 px-4 font-medium transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]">
-          {navigationConfig.announcementText}
+          {t.navigation.announcementText}
         </div>
       )}
 
@@ -69,7 +72,7 @@ const Navigation = ({ cartItems, onRemoveFromCart, onUpdateQuantity }: Navigatio
         className={`fixed left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled ? 'bg-white/95 backdrop-blur-md shadow-sm' : 'bg-transparent'
         }`}
-        style={{ top: showAnnouncement && navigationConfig.announcementText ? '32px' : '0' }}
+        style={{ top: showAnnouncement && t.navigation.announcementText ? '32px' : '0' }}
       >
         <div className="flex items-center justify-between h-[70px] px-6 md:px-12 lg:px-[170px]">
           <a
@@ -81,10 +84,33 @@ const Navigation = ({ cartItems, onRemoveFromCart, onUpdateQuantity }: Navigatio
             className="font-serif text-2xl tracking-wide"
             style={{ color: isScrolled ? '#000' : '#fff' }}
           >
-            {navigationConfig.brandName}
+            {t.navigation.brandName}
           </a>
 
           <div className="flex items-center gap-6">
+            {/* Sélecteur de langue */}
+            <div
+              className="flex items-center gap-2 text-xs tracking-wide"
+              style={{ color: isScrolled ? '#2b2118' : '#fff' }}
+            >
+              {LANGUAGES.map((code: Language, index: number) => (
+                <span key={code} className="flex items-center gap-2">
+                  {index > 0 && <span aria-hidden="true">|</span>}
+                  <button
+                    onClick={() => setLanguage(code)}
+                    aria-label={t.languageNames[code]}
+                    className={`px-2 py-1 cursor-pointer ${
+                      language === code
+                        ? 'text-[#b06c4f] font-semibold'
+                        : 'opacity-60 hover:opacity-100'
+                    }`}
+                  >
+                    {code === 'fr' ? 'FR' : code === 'en' ? 'EN' : 'ع'}
+                  </button>
+                </span>
+              ))}
+            </div>
+
             <button
               onClick={() => setIsCartOpen(true)}
               aria-label={`Ouvrir le panier (${totalItems} article${totalItems > 1 ? 's' : ''})`}
@@ -101,6 +127,7 @@ const Navigation = ({ cartItems, onRemoveFromCart, onUpdateQuantity }: Navigatio
 
             <button
               onClick={() => setIsMenuOpen(true)}
+              aria-label="Ouvrir le menu"
               className="flex flex-col gap-1.5 w-7 btn-hover"
             >
               <span
@@ -138,7 +165,7 @@ const Navigation = ({ cartItems, onRemoveFromCart, onUpdateQuantity }: Navigatio
               <div className="relative">
                 <input
                   type="text"
-                  placeholder={navigationConfig.searchPlaceholder}
+                  placeholder={t.navigation.searchPlaceholder}
                   className="w-full py-3 border-b-2 border-[#8b6d4b] bg-transparent focus:outline-none font-light text-lg"
                 />
                 <Search className="absolute right-0 top-1/2 -translate-y-1/2 text-[#8b6d4b]" size={20} />
@@ -146,7 +173,7 @@ const Navigation = ({ cartItems, onRemoveFromCart, onUpdateQuantity }: Navigatio
             </div>
 
             <nav className="flex flex-col items-center gap-6">
-              {navigationConfig.menuLinks.map((link, index) => (
+              {t.navigation.menuLinks.map((link, index) => (
                 <a
                   key={link.label}
                   href={link.href}
@@ -167,7 +194,7 @@ const Navigation = ({ cartItems, onRemoveFromCart, onUpdateQuantity }: Navigatio
             </nav>
 
             <div className="flex items-center gap-6 mt-12">
-              {navigationConfig.socialLinks.map((social) => {
+              {t.navigation.socialLinks.map((social) => {
                 const IconComponent = iconMap[social.icon];
                 if (!IconComponent) return null;
                 return (
@@ -184,11 +211,11 @@ const Navigation = ({ cartItems, onRemoveFromCart, onUpdateQuantity }: Navigatio
             </div>
           </div>
 
-          {navigationConfig.menuBackgroundImage && (
+          {t.navigation.menuBackgroundImage && (
             <div
               className="hidden lg:block w-[40%] bg-cover bg-center"
               style={{
-                backgroundImage: `url(${navigationConfig.menuBackgroundImage})`,
+                backgroundImage: `url(${t.navigation.menuBackgroundImage})`,
                 opacity: isMenuOpen ? 1 : 0,
                 transform: isMenuOpen ? 'translateX(0)' : 'translateX(100%)',
                 transition: 'all 0.7s ease 0.2s',
@@ -215,7 +242,7 @@ const Navigation = ({ cartItems, onRemoveFromCart, onUpdateQuantity }: Navigatio
         >
           <div className="flex flex-col h-full">
             <div className="flex items-center justify-between p-6 border-b">
-              <h3 className="font-serif text-2xl">{navigationConfig.brandName}</h3>
+              <h3 className="font-serif text-2xl">{t.navigation.brandName}</h3>
               <button
                 onClick={() => setIsCartOpen(false)}
                 className="p-2 hover:opacity-60 transition-opacity"
@@ -228,12 +255,12 @@ const Navigation = ({ cartItems, onRemoveFromCart, onUpdateQuantity }: Navigatio
               {cartItems.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full text-center">
                   <ShoppingBag size={48} className="text-gray-300 mb-4" strokeWidth={1} />
-                  <p className="text-[#696969] text-lg">{navigationConfig.cartEmptyText}</p>
+                  <p className="text-[#696969] text-lg">{t.navigation.cartEmptyText}</p>
                   <button
                     onClick={() => setIsCartOpen(false)}
                     className="mt-6 px-8 py-3 bg-[#8b6d4b] text-white font-light tracking-wide btn-hover"
                   >
-                    {navigationConfig.continueShoppingText}
+                    {t.navigation.continueShoppingText}
                   </button>
                 </div>
               ) : (
@@ -281,34 +308,34 @@ const Navigation = ({ cartItems, onRemoveFromCart, onUpdateQuantity }: Navigatio
             {cartItems.length > 0 && (
               <div className="p-6 border-t bg-[#faf6f0]">
                 {/* Barre progression livraison offerte — réciprocité */}
-                {shippingConfig.freeShippingThreshold > 0 && (
+                {t.shipping.freeShippingThreshold > 0 && (
                   <div className="mb-6">
                     <p className="text-xs text-[#6b5d4f] mb-2">
-                      {totalPrice >= shippingConfig.freeShippingThreshold ? (
-                        <span className="font-semibold text-[#6b7b3c]">{shippingConfig.unlockedText}</span>
+                      {totalPrice >= t.shipping.freeShippingThreshold ? (
+                        <span className="font-semibold text-[#6b7b3c]">{t.shipping.unlockedText}</span>
                       ) : (
-                        shippingConfig.remainingText.replace(
+                        t.shipping.remainingText.replace(
                           '{n}',
-                          (shippingConfig.freeShippingThreshold - totalPrice).toFixed(2)
+                          (t.shipping.freeShippingThreshold - totalPrice).toFixed(2)
                         )
                       )}
                     </p>
                     <div
                       className="h-1.5 bg-[#efe7da] rounded-full overflow-hidden"
                       role="progressbar"
-                      aria-valuenow={Math.min(100, (totalPrice / shippingConfig.freeShippingThreshold) * 100)}
+                      aria-valuenow={Math.min(100, (totalPrice / t.shipping.freeShippingThreshold) * 100)}
                       aria-valuemin={0}
                       aria-valuemax={100}
                       aria-label="Progression vers la livraison offerte"
                     >
                       <div
                         className={`h-full rounded-full transition-all duration-500 ${
-                          totalPrice >= shippingConfig.freeShippingThreshold
+                          totalPrice >= t.shipping.freeShippingThreshold
                             ? 'bg-[#6b7b3c]'
                             : 'bg-[#b06c4f]'
                         }`}
                         style={{
-                          width: `${Math.min(100, (totalPrice / shippingConfig.freeShippingThreshold) * 100)}%`,
+                          width: `${Math.min(100, (totalPrice / t.shipping.freeShippingThreshold) * 100)}%`,
                         }}
                       />
                     </div>
@@ -321,19 +348,23 @@ const Navigation = ({ cartItems, onRemoveFromCart, onUpdateQuantity }: Navigatio
                 </div>
                 <button
                   onClick={() => {
-                    const message = buildOrderMessage(cartItems);
-                    window.open(buildWhatsAppUrl(whatsappConfig.phoneNumber, message), '_blank', 'noopener,noreferrer');
+                    const message = buildOrderMessage(cartItems, {
+                      orderGreeting: t.whatsapp.orderGreeting,
+                      orderTotalLabel: t.whatsapp.orderTotalLabel,
+                      orderOutro: t.whatsapp.orderOutro,
+                    });
+                    window.open(buildWhatsAppUrl(t.whatsapp.phoneNumber, message), '_blank', 'noopener,noreferrer');
                   }}
                   className="w-full min-h-[52px] py-4 bg-[#b06c4f] text-white font-medium tracking-widest btn-hover flex items-center justify-center gap-2 cursor-pointer hover:bg-[#8f5138]"
                 >
                   <MessageCircle size={18} />
-                  {navigationConfig.cartCheckoutText}
+                  {t.navigation.cartCheckoutText}
                 </button>
                 <button
                   onClick={() => setIsCartOpen(false)}
                   className="w-full py-3 mt-3 text-[#696969] font-light tracking-wide hover:text-black transition-colors"
                 >
-                  {navigationConfig.continueShoppingText}
+                  {t.navigation.continueShoppingText}
                 </button>
               </div>
             )}

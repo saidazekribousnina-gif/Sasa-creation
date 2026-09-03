@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
-import { siteConfig } from '../config';
-import type { Product } from '../config';
+import type { Product } from '../i18n/types';
+import { useLanguage } from '../i18n/LanguageContext';
 import Navigation from '../sections/Navigation';
 import Hero from '../sections/Hero';
 import SubHero from '../sections/SubHero';
@@ -25,6 +25,7 @@ interface CartItem {
 }
 
 export default function Home() {
+  const { language } = useLanguage();
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
     const storage = getSafeStorage();
     return storage ? loadCart(storage) : [];
@@ -76,7 +77,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white" lang={siteConfig.language || undefined}>
+    <div className="min-h-screen bg-white" lang={language}>
       <Navigation
         cartItems={cartItems}
         onRemoveFromCart={handleRemoveFromCart}

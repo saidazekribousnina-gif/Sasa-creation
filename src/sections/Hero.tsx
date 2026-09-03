@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
-import { heroConfig } from '../config';
+import { useLanguage } from '../i18n/LanguageContext';
 
 const Hero = () => {
+  const { t } = useLanguage();
   const [isVisible, setIsVisible] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
 
@@ -11,7 +12,7 @@ const Hero = () => {
     return () => cancelAnimationFrame(raf);
   }, []);
 
-  if (!heroConfig.title) return null;
+  if (!t.hero.title) return null;
 
   const scrollToNext = () => {
     const nextSection = document.querySelector('#subhero');
@@ -20,7 +21,7 @@ const Hero = () => {
     }
   };
 
-  const titleLines = heroConfig.title.split('\n');
+  const titleLines = t.hero.title.split('\n');
 
   return (
     <section
@@ -32,7 +33,7 @@ const Hero = () => {
       <div
         className="absolute inset-0 parallax-bg"
         style={{
-          backgroundImage: `url(${heroConfig.backgroundImage})`,
+          backgroundImage: `url(${t.hero.backgroundImage})`,
         }}
       />
 
@@ -48,7 +49,7 @@ const Hero = () => {
           style={{ transitionDelay: '300ms' }}
         >
           <span className="inline-block mb-4 text-sm tracking-[0.3em] font-light uppercase">
-            {heroConfig.tagline}
+            {t.hero.tagline}
           </span>
         </div>
 
@@ -72,34 +73,34 @@ const Hero = () => {
           }`}
           style={{ transitionDelay: '900ms' }}
         >
-          {heroConfig.ctaPrimaryText && (
+          {t.hero.ctaPrimaryText && (
             <a
-              href={heroConfig.ctaPrimaryTarget}
+              href={t.hero.ctaPrimaryTarget}
               onClick={(e) => {
                 e.preventDefault();
-                document.querySelector(heroConfig.ctaPrimaryTarget)?.scrollIntoView({ behavior: 'smooth' });
+                document.querySelector(t.hero.ctaPrimaryTarget)?.scrollIntoView({ behavior: 'smooth' });
               }}
               className="px-12 py-4 bg-[#b06c4f] text-white font-medium tracking-widest text-sm btn-hover cursor-pointer"
             >
-              {heroConfig.ctaPrimaryText}
+              {t.hero.ctaPrimaryText}
             </a>
           )}
-          {heroConfig.ctaSecondaryText && (
+          {t.hero.ctaSecondaryText && (
             <a
-              href={heroConfig.ctaSecondaryTarget}
+              href={t.hero.ctaSecondaryTarget}
               onClick={(e) => {
                 e.preventDefault();
-                document.querySelector(heroConfig.ctaSecondaryTarget)?.scrollIntoView({ behavior: 'smooth' });
+                document.querySelector(t.hero.ctaSecondaryTarget)?.scrollIntoView({ behavior: 'smooth' });
               }}
               className="px-12 py-4 border border-white text-white font-medium tracking-widest text-sm hover:bg-white hover:text-[#2b2118] transition-all duration-200 cursor-pointer"
             >
-              {heroConfig.ctaSecondaryText}
+              {t.hero.ctaSecondaryText}
             </a>
           )}
         </div>
 
         {/* Badge confiance — un seul, l'essentiel */}
-        {heroConfig.trustBadges.length > 0 && (
+        {t.hero.trustBadges.length > 0 && (
           <div
             className={`mt-12 flex flex-wrap justify-center gap-3 transition-all duration-1000 ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
@@ -107,7 +108,7 @@ const Hero = () => {
             style={{ transitionDelay: '1100ms' }}
           >
             <span className="px-5 py-2.5 text-xs tracking-[0.15em] uppercase text-white/95 bg-white/10 backdrop-blur-sm border border-white/25 rounded-full">
-              {heroConfig.trustBadges[0]}
+              {t.hero.trustBadges[0]}
             </span>
           </div>
         )}

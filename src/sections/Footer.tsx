@@ -1,6 +1,6 @@
 import { Instagram, Facebook, Twitter, ArrowRight } from 'lucide-react';
 import { useState } from 'react';
-import { footerConfig } from '../config';
+import { useLanguage } from '../i18n/LanguageContext';
 
 const iconMap: Record<string, React.ComponentType<{ size?: number; strokeWidth?: number; className?: string }>> = {
   Instagram,
@@ -9,10 +9,11 @@ const iconMap: Record<string, React.ComponentType<{ size?: number; strokeWidth?:
 };
 
 const Footer = () => {
+  const { t } = useLanguage();
   const [email, setEmail] = useState('');
   const [isSubscribed, setIsSubscribed] = useState(false);
 
-  if (!footerConfig.brandName) return null;
+  if (!t.footer.brandName) return null;
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,12 +38,12 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
           {/* Company Info */}
           <div className="lg:col-span-1">
-            <h3 className="font-serif text-2xl mb-6">{footerConfig.brandName}</h3>
+            <h3 className="font-serif text-2xl mb-6">{t.footer.brandName}</h3>
             <p className="text-[#696969] font-light text-sm leading-relaxed mb-6">
-              {footerConfig.brandDescription}
+              {t.footer.brandDescription}
             </p>
             <div className="flex items-center gap-4">
-              {footerConfig.socialLinks.map((social) => {
+              {t.footer.socialLinks.map((social) => {
                 const IconComponent = iconMap[social.icon];
                 if (!IconComponent) return null;
                 return (
@@ -60,7 +61,7 @@ const Footer = () => {
           </div>
 
           {/* Link Groups */}
-          {footerConfig.linkGroups.map((group) => (
+          {t.footer.linkGroups.map((group) => (
             <div key={group.title}>
               <h4 className="font-sans text-sm font-medium uppercase tracking-wider mb-6">{group.title}</h4>
               <ul className="space-y-3">
@@ -83,17 +84,17 @@ const Footer = () => {
           ))}
 
           {/* Newsletter */}
-          {footerConfig.newsletterHeading && (
+          {t.footer.newsletterHeading && (
             <div className="lg:col-span-1">
-              <h4 className="font-sans text-sm font-medium uppercase tracking-wider mb-6">{footerConfig.newsletterHeading}</h4>
+              <h4 className="font-sans text-sm font-medium uppercase tracking-wider mb-6">{t.footer.newsletterHeading}</h4>
               <p className="text-[#696969] text-sm font-light mb-4">
-                {footerConfig.newsletterDescription}
+                {t.footer.newsletterDescription}
               </p>
               <form onSubmit={handleSubscribe} className="flex flex-col gap-3">
                 <div className="relative">
                   <input
                     type="email"
-                    placeholder={footerConfig.newsletterPlaceholder}
+                    placeholder={t.footer.newsletterPlaceholder}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="w-full px-4 py-3 border border-gray-200 text-sm focus:outline-none focus:border-[#8b6d4b] transition-colors"
@@ -104,10 +105,10 @@ const Footer = () => {
                   className="flex items-center justify-center gap-2 px-6 py-3 bg-[#8b6d4b] text-white text-sm font-light tracking-wider btn-hover"
                 >
                   {isSubscribed ? (
-                    <span>{footerConfig.newsletterSuccessText}</span>
+                    <span>{t.footer.newsletterSuccessText}</span>
                   ) : (
                     <>
-                      <span>{footerConfig.newsletterButtonText}</span>
+                      <span>{t.footer.newsletterButtonText}</span>
                       <ArrowRight size={14} />
                     </>
                   )}
@@ -121,10 +122,10 @@ const Footer = () => {
         <div className="mt-16 pt-8 border-t border-gray-200">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <p className="text-[#333] text-xs uppercase tracking-wider font-medium">
-              {footerConfig.copyrightText}
+              {t.footer.copyrightText}
             </p>
             <div className="flex items-center gap-6">
-              {footerConfig.legalLinks.map((link) => (
+              {t.footer.legalLinks.map((link) => (
                 <a
                   key={link.label}
                   href={link.href}

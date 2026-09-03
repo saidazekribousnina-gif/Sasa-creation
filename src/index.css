@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -36,9 +37,33 @@
     --sasa-ink: #2b2118;
     --sasa-olive: #6b7b3c;
 
-    --font-serif: 'Cormorant', serif;
-    --font-sans: 'Montserrat', sans-serif;
+    --font-serif: 'Cormorant', 'Noto Naskh Arabic', serif;
+    --font-sans: 'Montserrat', 'Noto Sans Arabic', sans-serif;
   }
+}
+
+/* Arabe — typographie dédiée avec fallback automatique */
+html[lang="ar"] body {
+  font-family: 'Noto Sans Arabic', 'Montserrat', sans-serif;
+  letter-spacing: 0;
+}
+
+html[lang="ar"] h1,
+html[lang="ar"] h2,
+html[lang="ar"] h3,
+html[lang="ar"] h4,
+html[lang="ar"] h5,
+html[lang="ar"] h6,
+html[lang="ar"] .font-serif {
+  font-family: 'Noto Naskh Arabic', 'Cormorant', serif;
+  letter-spacing: 0;
+}
+
+/* RTL — désactiver les letter-spacing occidentaux en arabe */
+html[lang="ar"] .tracking-\[0\.2em\],
+html[lang="ar"] .tracking-\[0\.3em\],
+html[lang="ar"] .tracking-\[0\.15em\] {
+  letter-spacing: 0;
 }
 
 @layer base {

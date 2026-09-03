@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Truck, ShieldCheck, Leaf, Heart } from 'lucide-react';
-import { featuresConfig } from '../config';
+import { useLanguage } from '../i18n/LanguageContext';
 
 const iconMap: Record<string, React.ComponentType<{ size?: number; strokeWidth?: number; className?: string }>> = {
   Truck,
@@ -10,6 +10,7 @@ const iconMap: Record<string, React.ComponentType<{ size?: number; strokeWidth?:
 };
 
 const Features = () => {
+  const { t } = useLanguage();
   const sectionRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -31,7 +32,7 @@ const Features = () => {
     return () => observer.disconnect();
   }, []);
 
-  if (featuresConfig.features.length === 0) return null;
+  if (t.features.features.length === 0) return null;
 
   return (
     <section
@@ -40,7 +41,7 @@ const Features = () => {
     >
       <div className="max-w-[1400px] mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-          {featuresConfig.features.map((feature, index) => {
+          {t.features.features.map((feature, index) => {
             const IconComponent = iconMap[feature.icon];
             return (
               <div

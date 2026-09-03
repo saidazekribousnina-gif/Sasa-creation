@@ -1,5 +1,5 @@
 ﻿import { useEffect, useRef, useState } from 'react';
-import { subHeroConfig } from '../config';
+import { useLanguage } from '../i18n/LanguageContext';
 
 const useCountUp = (end: number, duration: number = 2000, start: boolean = false) => {
   const [count, setCount] = useState(0);
@@ -59,6 +59,7 @@ const StatCounter = ({ value, suffix, label, start }: { value: number; suffix: s
 };
 
 const SubHero = () => {
+  const { t } = useLanguage();
   const sectionRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [statsVisible, setStatsVisible] = useState(false);
@@ -103,7 +104,7 @@ const SubHero = () => {
     return () => observer.disconnect();
   }, []);
 
-  if (!subHeroConfig.heading) return null;
+  if (!t.subHero.heading) return null;
 
   return (
     <section
@@ -120,26 +121,26 @@ const SubHero = () => {
             }`}
           >
             <span className="inline-block mb-4 text-sm tracking-[0.2em] text-[#b06c4f] font-medium uppercase">
-              {subHeroConfig.tag}
+              {t.subHero.tag}
             </span>
             <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl text-[#2b2118] leading-tight mb-6">
-              {subHeroConfig.heading}
+              {t.subHero.heading}
             </h2>
-            {subHeroConfig.bodyParagraphs.map((paragraph, index) => (
+            {t.subHero.bodyParagraphs.map((paragraph, index) => (
               <p key={index} className="text-[#6b5d4f] text-lg leading-relaxed mb-6">
                 {paragraph}
               </p>
             ))}
-            {subHeroConfig.linkText && (
+            {t.subHero.linkText && (
               <a
-                href={subHeroConfig.linkTarget}
+                href={t.subHero.linkTarget}
                 onClick={(e) => {
                   e.preventDefault();
-                  document.querySelector(subHeroConfig.linkTarget)?.scrollIntoView({ behavior: 'smooth' });
+                  document.querySelector(t.subHero.linkTarget)?.scrollIntoView({ behavior: 'smooth' });
                 }}
                 className="inline-flex items-center gap-2 text-[#b06c4f] font-medium tracking-wide hover:gap-4 transition-all duration-300"
               >
-                {subHeroConfig.linkText}
+                {t.subHero.linkText}
                 <span className="text-lg">&rarr;</span>
               </a>
             )}
@@ -148,7 +149,7 @@ const SubHero = () => {
           {/* Image Side */}
           <div className="relative h-[500px] md:h-[600px] lg:h-[700px]" style={{ perspective: '1200px' }}>
             {/* Main Image */}
-            {subHeroConfig.image1 && (
+            {t.subHero.image1 && (
               <div
                 ref={img1ParallaxRef}
                 className="absolute top-0 right-0 w-[85%] h-[75%] overflow-hidden shadow-2xl"
@@ -164,7 +165,7 @@ const SubHero = () => {
                 }}
               >
                 <img
-                  src={subHeroConfig.image1}
+                  src={t.subHero.image1}
                   alt=""
                   className="w-full h-full object-cover"
                   style={{
@@ -176,7 +177,7 @@ const SubHero = () => {
             )}
 
             {/* Secondary Image */}
-            {subHeroConfig.image2 && (
+            {t.subHero.image2 && (
               <div
                 ref={img2ParallaxRef}
                 className="absolute bottom-0 left-0 w-[60%] h-[50%] overflow-hidden shadow-2xl"
@@ -192,7 +193,7 @@ const SubHero = () => {
                 }}
               >
                 <img
-                  src={subHeroConfig.image2}
+                  src={t.subHero.image2}
                   alt=""
                   className="w-full h-full object-cover"
                   style={{
@@ -227,15 +228,15 @@ const SubHero = () => {
       </div>
 
       {/* Stats Section */}
-      {subHeroConfig.stats.length > 0 && (
+      {t.subHero.stats.length > 0 && (
         <div ref={statsRef} className="max-w-[1400px] mx-auto px-6 md:px-12 lg:px-20 mt-20 lg:mt-32">
           <div
             className={`grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4 text-center transition-all duration-700 delay-300 ${
               statsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}
           >
-            {subHeroConfig.stats.map((stat, index) => (
-              <div key={index} className={index < subHeroConfig.stats.length - 1 ? 'border-r border-gray-200' : ''}>
+            {t.subHero.stats.map((stat, index) => (
+              <div key={index} className={index < t.subHero.stats.length - 1 ? 'border-r border-gray-200' : ''}>
                 <StatCounter value={stat.value} suffix={stat.suffix} label={stat.label} start={statsVisible} />
               </div>
             ))}

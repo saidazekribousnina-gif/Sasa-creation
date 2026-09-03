@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { MapPin, Mail, Phone, Send } from 'lucide-react';
-import { contactConfig, whatsappConfig } from '../config';
+import { useLanguage } from '../i18n/LanguageContext';
 import { buildWhatsAppUrl } from '../lib/whatsapp';
 
 const Contact = () => {
+  const { t } = useLanguage();
   const sectionRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [formData, setFormData] = useState({
@@ -32,23 +33,23 @@ const Contact = () => {
     return () => observer.disconnect();
   }, []);
 
-  if (!contactConfig.heading) return null;
+  if (!t.contact.heading) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     const message = [
-      whatsappConfig.contactGreeting,
+      t.whatsapp.contactGreeting,
       '',
-      `Nom : ${formData.name}`,
-      `E-mail : ${formData.email}`,
+      `${t.contact.formFields.nameLabel} : ${formData.name}`,
+      `${t.contact.formFields.emailLabel} : ${formData.email}`,
       '',
       formData.message,
     ].join('\n');
 
     window.open(
-      buildWhatsAppUrl(whatsappConfig.phoneNumber, message),
+      buildWhatsAppUrl(t.whatsapp.phoneNumber, message),
       '_blank',
       'noopener,noreferrer'
     );
@@ -67,10 +68,10 @@ const Contact = () => {
       className="relative min-h-screen flex items-center justify-center"
     >
       {/* Background Image */}
-      {contactConfig.backgroundImage && (
+      {t.contact.backgroundImage && (
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${contactConfig.backgroundImage})` }}
+          style={{ backgroundImage: `url(${t.contact.backgroundImage})` }}
         />
       )}
 
@@ -88,44 +89,44 @@ const Contact = () => {
           >
             {/* Logo */}
             <h2 className="font-serif text-5xl md:text-6xl lg:text-[80px] mb-8 leading-none">
-              {contactConfig.heading}
+              {t.contact.heading}
             </h2>
 
             <p className="text-xl font-light leading-relaxed opacity-90 mb-12 max-w-md">
-              {contactConfig.description}
+              {t.contact.description}
             </p>
 
             {/* Contact Info */}
             <div className="space-y-6 mb-12">
-              {contactConfig.location && (
+              {t.contact.location && (
                 <div className="flex items-center gap-4">
                   <MapPin size={20} strokeWidth={1.5} className="text-[#8b6d4b]" />
                   <div>
-                    <span className="block text-xs uppercase tracking-wider opacity-60 mb-1">{contactConfig.locationLabel}</span>
-                    <span className="font-light">{contactConfig.location}</span>
+                    <span className="block text-xs uppercase tracking-wider opacity-60 mb-1">{t.contact.locationLabel}</span>
+                    <span className="font-light">{t.contact.location}</span>
                   </div>
                 </div>
               )}
 
-              {contactConfig.email && (
+              {t.contact.email && (
                 <div className="flex items-center gap-4">
                   <Mail size={20} strokeWidth={1.5} className="text-[#8b6d4b]" />
                   <div>
-                    <span className="block text-xs uppercase tracking-wider opacity-60 mb-1">{contactConfig.emailLabel}</span>
-                    <a href={`mailto:${contactConfig.email}`} className="font-light hover:text-[#8b6d4b] transition-colors">
-                      {contactConfig.email}
+                    <span className="block text-xs uppercase tracking-wider opacity-60 mb-1">{t.contact.emailLabel}</span>
+                    <a href={`mailto:${t.contact.email}`} className="font-light hover:text-[#8b6d4b] transition-colors">
+                      {t.contact.email}
                     </a>
                   </div>
                 </div>
               )}
 
-              {contactConfig.phone && (
+              {t.contact.phone && (
                 <div className="flex items-center gap-4">
                   <Phone size={20} strokeWidth={1.5} className="text-[#8b6d4b]" />
                   <div>
-                    <span className="block text-xs uppercase tracking-wider opacity-60 mb-1">{contactConfig.phoneLabel}</span>
-                    <a href={`tel:${contactConfig.phone}`} className="font-light hover:text-[#8b6d4b] transition-colors">
-                      {contactConfig.phone}
+                    <span className="block text-xs uppercase tracking-wider opacity-60 mb-1">{t.contact.phoneLabel}</span>
+                    <a href={`tel:${t.contact.phone}`} className="font-light hover:text-[#8b6d4b] transition-colors">
+                      {t.contact.phone}
                     </a>
                   </div>
                 </div>
@@ -144,7 +145,7 @@ const Contact = () => {
               <div>
                 <input
                   type="text"
-                  placeholder={contactConfig.formFields.namePlaceholder}
+                  placeholder={t.contact.formFields.namePlaceholder}
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   required
@@ -155,7 +156,7 @@ const Contact = () => {
               <div>
                 <input
                   type="email"
-                  placeholder={contactConfig.formFields.emailPlaceholder}
+                  placeholder={t.contact.formFields.emailPlaceholder}
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   required
@@ -165,7 +166,7 @@ const Contact = () => {
 
               <div>
                 <textarea
-                  placeholder={contactConfig.formFields.messagePlaceholder}
+                  placeholder={t.contact.formFields.messagePlaceholder}
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   required
@@ -180,14 +181,14 @@ const Contact = () => {
                 className="w-full flex items-center justify-center gap-3 py-5 bg-[#8b6d4b] text-white font-light tracking-widest text-sm btn-hover disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
-                  <span className="animate-pulse">{contactConfig.submittingText}</span>
+                  <span className="animate-pulse">{t.contact.submittingText}</span>
                 ) : isSubmitted ? (
                   <>
-                    <span>{contactConfig.submittedText}</span>
+                    <span>{t.contact.submittedText}</span>
                   </>
                 ) : (
                   <>
-                    <span>{contactConfig.submitText}</span>
+                    <span>{t.contact.submitText}</span>
                     <Send size={16} />
                   </>
                 )}
@@ -196,7 +197,7 @@ const Contact = () => {
 
             {isSubmitted && (
               <p className="mt-6 text-green-400 text-center font-light">
-                {contactConfig.successMessage}
+                {t.contact.successMessage}
               </p>
             )}
           </div>

@@ -1,4 +1,8 @@
-import { whatsappConfig } from '../config';
+export interface WhatsAppTexts {
+  orderGreeting: string;
+  orderTotalLabel: string;
+  orderOutro: string;
+}
 
 export interface WhatsAppOrderItem {
   name: string;
@@ -14,7 +18,10 @@ export function formatPrice(amount: number): string {
   return `${amount.toFixed(2)} DT`;
 }
 
-export function buildOrderMessage(items: WhatsAppOrderItem[]): string {
+export function buildOrderMessage(
+  items: WhatsAppOrderItem[],
+  texts: WhatsAppTexts
+): string {
   const lines = items.map(
     (item) => `- ${item.name} × ${item.quantity} — ${formatPrice(item.price * item.quantity)}`
   );
@@ -23,13 +30,13 @@ export function buildOrderMessage(items: WhatsAppOrderItem[]): string {
     0
   );
   return [
-    whatsappConfig.orderGreeting,
+    texts.orderGreeting,
     '',
     ...lines,
     '',
-    `${whatsappConfig.orderTotalLabel} : ${formatPrice(total)}`,
+    `${texts.orderTotalLabel} : ${formatPrice(total)}`,
     '',
-    whatsappConfig.orderOutro,
+    texts.orderOutro,
   ].join('\n');
 }
 

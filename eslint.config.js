@@ -27,6 +27,12 @@ export default defineConfig([
     },
   },
   {
+    files: ['src/i18n/LanguageContext.tsx'],
+    rules: {
+      'react-refresh/only-export-components': 'off',
+    },
+  },
+  {
     files: ['src/components/ui/sidebar.tsx'],
     rules: {
       'react-hooks/purity': 'off',

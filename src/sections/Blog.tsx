@@ -1,8 +1,9 @@
 ﻿import { useEffect, useRef, useState } from 'react';
 import { ArrowRight } from 'lucide-react';
-import { blogConfig } from '../config';
+import { useLanguage } from '../i18n/LanguageContext';
 
 const Blog = () => {
+  const { t } = useLanguage();
   const sectionRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
 
@@ -24,7 +25,7 @@ const Blog = () => {
     return () => observer.disconnect();
   }, []);
 
-  if (!blogConfig.heading && blogConfig.posts.length === 0) return null;
+  if (!t.blog.heading && t.blog.posts.length === 0) return null;
 
   return (
     <section
@@ -40,7 +41,7 @@ const Blog = () => {
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
             }`}
           >
-            {blogConfig.tag}
+            {t.blog.tag}
           </span>
           <h2
             className={`font-serif text-4xl md:text-5xl text-[#2b2118] mb-6 transition-all duration-700 ${
@@ -48,13 +49,13 @@ const Blog = () => {
             }`}
             style={{ transitionDelay: '200ms' }}
           >
-            {blogConfig.heading}
+            {t.blog.heading}
           </h2>
         </div>
 
         {/* Blog Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {blogConfig.posts.map((post, index) => (
+          {t.blog.posts.map((post, index) => (
             <article
               key={post.id}
               className={`group relative h-[500px] overflow-hidden cursor-pointer transition-all duration-700 ${
@@ -92,7 +93,7 @@ const Blog = () => {
 
                 {/* Read More Link */}
                 <div className="flex items-center gap-2 opacity-0 transform translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-600">
-                  <span className="text-sm tracking-[0.2em] uppercase">{blogConfig.readMoreText}</span>
+                  <span className="text-sm tracking-[0.2em] uppercase">{t.blog.readMoreText}</span>
                   <ArrowRight size={16} />
                   {/* Underline animation */}
                   <div className="absolute bottom-6 left-6 h-[2px] bg-[#7f7e7e] w-0 group-hover:w-24 transition-all duration-600" />
@@ -103,7 +104,7 @@ const Blog = () => {
         </div>
 
         {/* View All Link */}
-        {blogConfig.viewAllText && (
+        {t.blog.viewAllText && (
           <div
             className={`text-center mt-12 transition-all duration-700 ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
@@ -114,7 +115,7 @@ const Blog = () => {
               href="#"
               className="inline-flex items-center gap-2 text-[#b06c4f] font-medium tracking-wide hover:gap-4 transition-all duration-300"
             >
-              {blogConfig.viewAllText}
+              {t.blog.viewAllText}
               <ArrowRight size={18} />
             </a>
           </div>

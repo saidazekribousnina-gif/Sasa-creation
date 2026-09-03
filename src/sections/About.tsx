@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { aboutConfig } from '../config';
+import { useLanguage } from '../i18n/LanguageContext';
 
 interface AboutSectionProps {
   id: string;
@@ -62,11 +62,13 @@ const AboutSection = ({ id, image, contentBg, textColor, reverse, children }: Ab
 };
 
 const About = () => {
-  if (aboutConfig.sections.length === 0) return null;
+  const { t } = useLanguage();
+
+  if (t.about.sections.length === 0) return null;
 
   return (
     <section id="about" className="relative">
-      {aboutConfig.sections.map((section, index) => (
+      {t.about.sections.map((section, index) => (
         <AboutSection
           key={index}
           id={`about-${index}`}
@@ -103,9 +105,9 @@ const About = () => {
       ))}
 
       {/* Vertical Navigation Dots */}
-      {aboutConfig.sections.length > 1 && (
+      {t.about.sections.length > 1 && (
         <div className="hidden lg:flex fixed right-8 top-1/2 -translate-y-1/2 flex-col gap-4 z-50">
-          {aboutConfig.sections.map((_, index) => (
+          {t.about.sections.map((_, index) => (
             <button
               key={index}
               onClick={() => {

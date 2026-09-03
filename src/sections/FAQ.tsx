@@ -1,8 +1,9 @@
 ﻿import { useEffect, useRef, useState } from 'react';
 import { Plus } from 'lucide-react';
-import { faqConfig } from '../config';
+import { useLanguage } from '../i18n/LanguageContext';
 
 const FAQ = () => {
+  const { t } = useLanguage();
   const sectionRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [openId, setOpenId] = useState<number | null>(null);
@@ -29,7 +30,7 @@ const FAQ = () => {
     setOpenId(openId === id ? null : id);
   };
 
-  if (!faqConfig.heading && faqConfig.faqs.length === 0) return null;
+  if (!t.faq.heading && t.faq.faqs.length === 0) return null;
 
   return (
     <section
@@ -44,7 +45,7 @@ const FAQ = () => {
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
             }`}
           >
-            {faqConfig.tag}
+            {t.faq.tag}
           </span>
           <h2
             className={`font-serif text-4xl md:text-5xl text-[#2b2118] mb-6 transition-all duration-700 ${
@@ -52,13 +53,13 @@ const FAQ = () => {
             }`}
             style={{ transitionDelay: '200ms' }}
           >
-            {faqConfig.heading}
+            {t.faq.heading}
           </h2>
         </div>
 
         {/* FAQ Items */}
         <div className="space-y-3">
-          {faqConfig.faqs.map((faq, index) => (
+          {t.faq.faqs.map((faq, index) => (
             <div
               key={faq.id}
               className={`transition-all duration-700 ${
@@ -104,23 +105,23 @@ const FAQ = () => {
         </div>
 
         {/* Contact CTA */}
-        {faqConfig.ctaText && (
+        {t.faq.ctaText && (
           <div
             className={`text-center mt-12 transition-all duration-700 ${
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
             }`}
             style={{ transitionDelay: '1000ms' }}
           >
-            <p className="text-[#6b5d4f] mb-4">{faqConfig.ctaText}</p>
+            <p className="text-[#6b5d4f] mb-4">{t.faq.ctaText}</p>
             <a
-              href={faqConfig.ctaTarget}
+              href={t.faq.ctaTarget}
               onClick={(e) => {
                 e.preventDefault();
-                document.querySelector(faqConfig.ctaTarget)?.scrollIntoView({ behavior: 'smooth' });
+                document.querySelector(t.faq.ctaTarget)?.scrollIntoView({ behavior: 'smooth' });
               }}
               className="inline-flex items-center gap-2 text-[#b06c4f] font-medium tracking-wide hover:gap-4 transition-all duration-300"
             >
-              {faqConfig.ctaText}
+              {t.faq.ctaText}
               <span className="text-lg">&rarr;</span>
             </a>
           </div>
