@@ -33,6 +33,7 @@ export const ar: Translations = {
     cartEmptyText: "سلتكم فارغة — تعالوا اكتشفوا إبداعاتنا.",
     cartCheckoutText: "الطلب عبر واتساب",
     continueShoppingText: "مواصلة التسوّق",
+    cartTitle: "السلة",
     menuBackgroundImage: "/images/atelier.webp",
     announcementText: "توصيل مجاني من 300 دينار · قطع يدوية فريدة من تونس",
   },
@@ -492,6 +493,71 @@ export const ar: Translations = {
     shareText: "شاركوا",
     notFoundText: "هذه القطعة غير موجودة — أو وجدت صاحبتها بالفعل.",
     cartReminderText: "سلتكم تنتظركم — {n} قطعة جاهزة للطلب",
+  },
+
+  wishlist: {
+    tabText: "المفضلة",
+    emptyText: "لا توجد مفضلات بعد — انقروا مرتين على أي قطعة تعجبكم ♥",
+    addToCartText: "أضيفوا إلى السلة",
+    doubleTapAriaLabel: "إضافة إلى المفضلة",
+  },
+
+  stories: {
+    viewAllText: "عرض الكل",
+    stories: [
+      {
+        id: 1,
+        title: "وصل حديثًا",
+        slides: [
+          {
+            text: "أحدث إبداعات الورشة، أنهيناها للتو",
+            ctaText: "اكتشفوا الوصل الجديد",
+            ctaTarget: "#products",
+            ctaWhatsApp: false,
+            image: "/images/product-1.webp",
+          },
+        ],
+      },
+      {
+        id: 2,
+        title: "قطع فريدة",
+        slides: [
+          {
+            text: "لن تتكرر أبدًا. حقًا.",
+            ctaText: "شاهدوا القطع الفريدة",
+            ctaTarget: "#products",
+            ctaWhatsApp: false,
+            image: "/images/product-4.webp",
+          },
+        ],
+      },
+      {
+        id: 3,
+        title: "من الكواليس",
+        slides: [
+          {
+            text: "حبّة بعد حبّة، في ورشتنا التونسية",
+            ctaText: "الحركات الاثنتا عشرة لحرفتنا",
+            ctaTarget: "#craft",
+            ctaWhatsApp: false,
+            image: "/images/atelier.webp",
+          },
+        ],
+      },
+      {
+        id: 4,
+        title: "الطلب",
+        slides: [
+          {
+            text: "سؤال؟ راسلونا مباشرة على واتساب",
+            ctaText: "تحدثوا معنا على واتساب",
+            ctaTarget: "",
+            ctaWhatsApp: true,
+            image: "/images/hero-portrait.webp",
+          },
+        ],
+      },
+    ],
   },
 
   languageNames: {

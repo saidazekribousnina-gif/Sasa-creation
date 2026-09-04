@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
-import { ShoppingBag, X, Search, Instagram, Facebook, Twitter, MessageCircle } from 'lucide-react';
+import { ShoppingBag, X, Search, Instagram, Facebook, Twitter, MessageCircle, Heart } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { LANGUAGES } from '../i18n/types';
 import type { Language } from '../i18n/types';
+import type { Product } from '../i18n/types';
 import { buildOrderMessage, buildWhatsAppUrl } from '../lib/whatsapp';
 import { trackEvent } from '../lib/analytics';
 import { trackMetaEvent } from '../lib/metaPixel';
+import type { WishlistItem } from '../lib/wishlist';
 
 interface CartItem {
   id: number;
@@ -19,6 +21,9 @@ interface NavigationProps {
   cartItems: CartItem[];
   onRemoveFromCart: (id: number) => void;
   onUpdateQuantity: (id: number, quantity: number) => void;
+  wishlist: WishlistItem[];
+  onToggleWishlist: (product: Product) => void;
+  onAddToCart: (product: Product, source?: string) => void;
 }
 
 const iconMap: Record<string, React.ComponentType<{ size?: number; strokeWidth?: number; className?: string }>> = {
@@ -27,8 +32,16 @@ const iconMap: Record<string, React.ComponentType<{ size?: number; strokeWidth?:
   Twitter,
 };
 
-const Navigation = ({ cartItems, onRemoveFromCart, onUpdateQuantity }: NavigationProps) => {
+const Navigation = ({
+  cartItems,
+  onRemoveFromCart,
+  onUpdateQuantity,
+  wishlist,
+  onToggleWishlist,
+  onAddToCart,
+}: NavigationProps) => {
   const { language, setLanguage, t } = useLanguage();
+  const [activeTab, setActiveTab] = useState<'cart' | 'wishlist'>('cart');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -250,12 +263,102 @@ const Navigation = ({ cartItems, onRemoveFromCart, onUpdateQuantity }: Navigatio
               <h3 className="font-serif text-2xl">{t.navigation.brandName}</h3>
               <button
                 onClick={() => setIsCartOpen(false)}
-                className="p-2 hover:opacity-60 transition-opacity"
+                aria-label="Fermer le panier"
+                className="p-2 hover:opacity-60 transition-opacity cursor-pointer"
               >
                 <X size={24} strokeWidth={1.5} />
               </button>
             </div>
 
+            {/* Onglets Panier / Favoris — pattern Marketplace */}
+            <div className="flex border-b border-[#efe7da]" role="tablist">
+              <button
+                role="tab"
+                aria-selected={activeTab === 'cart'}
+                onClick={() => setActiveTab('cart')}
+                className={`flex-1 min-h-[48px] text-sm font-medium tracking-wide py-3 transition-colors cursor-pointer flex items-center justify-center gap-2 ${
+                  activeTab === 'cart'
+                    ? 'text-[#b06c4f] border-b-2 border-[#b06c4f] bg-[#faf6f0]'
+                    : 'text-[#8a7d6d] hover:text-[#2b2118]'
+                }`}
+              >
+                <ShoppingBag size={16} aria-hidden="true" />
+                {t.navigation.cartTitle || 'Panier'}
+                {cartItems.length > 0 && (
+                  <span className="text-xs bg-[#b06c4f] text-white w-5 h-5 rounded-full inline-flex items-center justify-center">
+                    {totalItems}
+                  </span>
+                )}
+              </button>
+              <button
+                role="tab"
+                aria-selected={activeTab === 'wishlist'}
+                onClick={() => setActiveTab('wishlist')}
+                className={`flex-1 min-h-[48px] text-sm font-medium tracking-wide py-3 transition-colors cursor-pointer flex items-center justify-center gap-2 ${
+                  activeTab === 'wishlist'
+                    ? 'text-[#b06c4f] border-b-2 border-[#b06c4f] bg-[#faf6f0]'
+                    : 'text-[#8a7d6d] hover:text-[#2b2118]'
+                }`}
+              >
+                <Heart size={16} className={wishlist.length > 0 ? 'fill-[#e0245e] text-[#e0245e]' : ''} aria-hidden="true" />
+                {t.wishlist.tabText}
+                {wishlist.length > 0 && (
+                  <span className="text-xs bg-[#e0245e] text-white w-5 h-5 rounded-full inline-flex items-center justify-center">
+                    {wishlist.length}
+                  </span>
+                )}
+              </button>
+            </div>
+
+            {activeTab === 'wishlist' ? (
+              /* ── Contenu Favoris ── */
+              <div className="flex-1 overflow-y-auto p-6">
+                {wishlist.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center h-full text-center">
+                    <Heart size={48} className="text-[#efe7da] mb-4" strokeWidth={1} />
+                    <p className="text-[#6b5d4f] text-base px-4">{t.wishlist.emptyText}</p>
+                  </div>
+                ) : (
+                  <div className="space-y-6">
+                    {wishlist.map((item) => (
+                      <div key={item.id} className="flex gap-4 pb-6 border-b border-[#f5efe5]">
+                        <div className="w-24 h-24 bg-[#faf6f0] overflow-hidden shrink-0">
+                          <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-serif text-lg truncate">{item.name}</h4>
+                          <p className="text-[#8f5138] font-semibold mt-1">{item.price.toFixed(2)} DT</p>
+                          <div className="flex items-center gap-3 mt-3">
+                            <button
+                              onClick={() => {
+                                const product = t.products.products.find((p) => p.id === item.id);
+                                if (product) onAddToCart(product, 'wishlist');
+                              }}
+                              className="min-h-[40px] px-4 py-2 text-xs font-medium bg-[#b06c4f] text-white tracking-wide btn-hover cursor-pointer flex items-center gap-1.5"
+                            >
+                              <ShoppingBag size={13} aria-hidden="true" />
+                              {t.wishlist.addToCartText}
+                            </button>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => {
+                            const product = t.products.products.find((p) => p.id === item.id);
+                            if (product) onToggleWishlist(product);
+                          }}
+                          aria-label={`Retirer ${item.name} des favoris`}
+                          className="text-[#c9bfae] hover:text-[#e0245e] transition-colors cursor-pointer shrink-0"
+                        >
+                          <X size={18} />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ) : (
+              /* ── Contenu Panier (existant) ── */
+              <>
             <div className="flex-1 overflow-y-auto p-6">
               {cartItems.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full text-center">
@@ -376,11 +479,13 @@ const Navigation = ({ cartItems, onRemoveFromCart, onUpdateQuantity }: Navigatio
                 </button>
                 <button
                   onClick={() => setIsCartOpen(false)}
-                  className="w-full py-3 mt-3 text-[#696969] font-light tracking-wide hover:text-black transition-colors"
+                  className="w-full py-3 mt-3 text-[#696969] font-light tracking-wide hover:text-black transition-colors cursor-pointer"
                 >
                   {t.navigation.continueShoppingText}
                 </button>
               </div>
+            )}
+              </>
             )}
           </div>
         </div>

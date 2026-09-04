@@ -5,6 +5,7 @@ import type { Product } from '../i18n/types';
 import { useLanguage } from '../i18n/LanguageContext';
 import Navigation from '../sections/Navigation';
 import Hero from '../sections/Hero';
+import StoriesRow from '../sections/StoriesRow';
 import SubHero from '../sections/SubHero';
 import CraftSteps from '../sections/CraftSteps';
 import Products from '../sections/Products';
@@ -16,12 +17,15 @@ import Contact from '../sections/Contact';
 import Footer from '../sections/Footer';
 import WhatsAppFloat from '../sections/WhatsAppFloat';
 import type { CartItem } from '../App';
+import type { WishlistItem } from '../lib/wishlist';
 
 interface HomeProps {
   cartItems: CartItem[];
   onAddToCart: (product: Product, source?: string) => void;
   onRemoveFromCart: (id: number) => void;
   onUpdateQuantity: (id: number, quantity: number) => void;
+  wishlist: WishlistItem[];
+  onToggleWishlist: (product: Product) => void;
 }
 
 export default function Home({
@@ -29,6 +33,8 @@ export default function Home({
   onAddToCart,
   onRemoveFromCart,
   onUpdateQuantity,
+  wishlist,
+  onToggleWishlist,
 }: HomeProps) {
   const { language, t } = useLanguage();
   const [showReminder, setShowReminder] = useState(false);
@@ -58,6 +64,9 @@ export default function Home({
         cartItems={cartItems}
         onRemoveFromCart={onRemoveFromCart}
         onUpdateQuantity={onUpdateQuantity}
+        wishlist={wishlist}
+        onToggleWishlist={onToggleWishlist}
+        onAddToCart={onAddToCart}
       />
 
       {/* Bandeau relance panier — apparaît après 2,5 s si panier existant */}
@@ -95,9 +104,14 @@ export default function Home({
 
       <main>
         <Hero />
+        <StoriesRow />
         <SubHero />
         <CraftSteps />
-        <Products onAddToCart={onAddToCart} />
+        <Products
+          onAddToCart={onAddToCart}
+          wishlist={wishlist}
+          onToggleWishlist={onToggleWishlist}
+        />
         <Features />
         <Blog />
         <FAQ />

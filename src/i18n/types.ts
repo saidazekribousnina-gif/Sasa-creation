@@ -33,6 +33,7 @@ export interface NavigationConfig {
   cartEmptyText: string;
   cartCheckoutText: string;
   continueShoppingText: string;
+  cartTitle: string;
   menuBackgroundImage: string;
   announcementText: string;
 }
@@ -261,6 +262,40 @@ export interface PdpConfig {
   cartReminderText: string;
 }
 
+export interface WishlistConfig {
+  /** Titre de l'onglet favoris dans le panier */
+  tabText: string;
+  emptyText: string;
+  addToCartText: string;
+  /** Accessibilité — action de double-tap */
+  doubleTapAriaLabel: string;
+}
+
+export interface StorySlide {
+  /** Texte superposé en haut de l'image */
+  text: string;
+  /** CTA optionnel sous l'histoire */
+  ctaText: string;
+  /** Cible du CTA (#products, #contact…) */
+  ctaTarget: string;
+  /** Cible WhatsApp : si vrai, le CTA ouvre une conversation WhatsApp */
+  ctaWhatsApp: boolean;
+  image: string;
+}
+
+export interface Story {
+  id: number;
+  /** Titre sous le cercle */
+  title: string;
+  slides: StorySlide[];
+}
+
+export interface StoriesConfig {
+  /** Position des stories dans la page — après le hero */
+  viewAllText: string;
+  stories: Story[];
+}
+
 export interface Translations {
   site: SiteConfig;
   whatsapp: WhatsAppConfig;
@@ -278,6 +313,8 @@ export interface Translations {
   contact: ContactConfig;
   footer: FooterConfig;
   pdp: PdpConfig;
+  wishlist: WishlistConfig;
+  stories: StoriesConfig;
   languageNames: LanguageNames;
 }
 

@@ -6,12 +6,14 @@
 
 export type AnalyticsEventName =
   | 'add_to_cart'
+  | 'add_to_wishlist'
   | 'whatsapp_order_click'
   | 'whatsapp_contact_click'
   | 'language_switch'
   | 'category_filter'
   | 'newsletter_submit'
-  | 'craft_step_viewed';
+  | 'craft_step_viewed'
+  | 'story_view';
 
 export interface AnalyticsEventProperties {
   [key: string]: string | number | boolean | undefined;

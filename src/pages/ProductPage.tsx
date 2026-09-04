@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+﻿import { useEffect, useMemo, useRef, useState } from 'react';
 import { useParams, Link } from 'react-router';
 import { ArrowRight, ShoppingBag, Check, MessageCircle, Share2, Heart } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
@@ -11,12 +11,15 @@ import Navigation from '../sections/Navigation';
 import Footer from '../sections/Footer';
 import WhatsAppFloat from '../sections/WhatsAppFloat';
 import type { CartItem } from '../App';
+import type { WishlistItem } from '../lib/wishlist';
 
 interface ProductPageProps {
   cartItems: CartItem[];
   onAddToCart: (product: Product, source?: string) => void;
   onRemoveFromCart: (id: number) => void;
   onUpdateQuantity: (id: number, quantity: number) => void;
+  wishlist: WishlistItem[];
+  onToggleWishlist: (product: Product) => void;
 }
 
 const ProductPage = ({
@@ -24,12 +27,14 @@ const ProductPage = ({
   onAddToCart,
   onRemoveFromCart,
   onUpdateQuantity,
+  wishlist,
+  onToggleWishlist,
 }: ProductPageProps) => {
   const { slug } = useParams<{ slug: string }>();
   const { t } = useLanguage();
   const topRef = useRef<HTMLDivElement>(null);
   const [isAdded, setIsAdded] = useState(false);
-  const [isShared, setIsShared] = useState(false);
+  const [isBursting, setIsBursting] = useState(false);
 
   useEffect(() => {
     topRef.current?.scrollIntoView({ behavior: 'instant' as ScrollBehavior });
@@ -139,8 +144,7 @@ const ProductPage = ({
         await navigator.share({ title: product.name, url });
       } else {
         await navigator.clipboard.writeText(url);
-        setIsShared(true);
-        setTimeout(() => setIsShared(false), 2000);
+        hapticFeedback(10);
       }
     } catch {
       // Partage annulé — ne rien faire
@@ -154,6 +158,9 @@ const ProductPage = ({
           cartItems={cartItems}
           onRemoveFromCart={onRemoveFromCart}
           onUpdateQuantity={onUpdateQuantity}
+          wishlist={wishlist}
+          onToggleWishlist={onToggleWishlist}
+          onAddToCart={onAddToCart}
         />
         <div className="min-h-[80vh] flex items-center justify-center px-6">
           <div className="text-center">
@@ -172,6 +179,7 @@ const ProductPage = ({
   }
 
   const isLowStock = product.stock > 0 && product.stock <= t.products.lowStockThreshold;
+  const inWishlist = wishlist.some((w) => w.id === product.id);
 
   return (
     <div className="min-h-screen bg-[#faf6f0]" ref={topRef}>
@@ -179,6 +187,9 @@ const ProductPage = ({
         cartItems={cartItems}
         onRemoveFromCart={onRemoveFromCart}
         onUpdateQuantity={onUpdateQuantity}
+        wishlist={wishlist}
+        onToggleWishlist={onToggleWishlist}
+        onAddToCart={onAddToCart}
       />
       <div className="max-w-[1200px] mx-auto px-6 pt-32 md:pt-36 pb-24">
         {/* Fil de retour */}
@@ -191,16 +202,63 @@ const ProductPage = ({
         </Link>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
-          {/* Image */}
+          {/* Image — double-tap → wishlist, cœur burst Instagram */}
           <div className="relative overflow-hidden bg-white shadow-[0_10px_50px_rgba(43,33,24,0.1)]">
             <img
               src={product.image}
               alt={product.name}
               className="w-full aspect-square object-cover"
+              onDoubleClick={() => {
+                const already = wishlist.some((w) => w.id === product.id);
+                onToggleWishlist(product);
+                if (!already) {
+                  setIsBursting(true);
+                  setTimeout(() => setIsBursting(false), 700);
+                }
+              }}
             />
             {product.isOneOfAKind && (
               <span className="absolute top-4 left-4 px-4 py-2 bg-[#2b2118]/90 text-[#faf6f0] badge-unique rounded-full backdrop-blur-sm">
                 {t.products.oneOfAKindText}
+              </span>
+            )}
+
+            {/* Barre d'action latérale — pattern TikTok : wishlist + partage empilés */}
+            <div className="absolute bottom-4 right-4 flex flex-col gap-2">
+              <button
+                onClick={() => onToggleWishlist(product)}
+                aria-label={t.wishlist.doubleTapAriaLabel}
+                aria-pressed={inWishlist}
+                className="w-11 h-11 rounded-full bg-white/85 backdrop-blur-sm shadow-md flex items-center justify-center hover:scale-110 active:scale-90 transition-transform duration-200 ease-[cubic-bezier(0.32,0.72,0,1)] cursor-pointer"
+              >
+                <Heart
+                  size={20}
+                  className={
+                    inWishlist
+                      ? 'fill-[#e0245e] text-[#e0245e]'
+                      : 'text-[#6b5d4f]'
+                  }
+                />
+              </button>
+              <button
+                onClick={handleShare}
+                aria-label={t.pdp.shareText}
+                className="w-11 h-11 rounded-full bg-white/85 backdrop-blur-sm shadow-md flex items-center justify-center hover:scale-110 active:scale-90 transition-transform duration-200 ease-[cubic-bezier(0.32,0.72,0,1)] cursor-pointer"
+              >
+                <Share2 size={19} className="text-[#6b5d4f]" />
+              </button>
+            </div>
+
+            {/* Cœur géant burst au double-tap */}
+            {isBursting && (
+              <span
+                className="absolute inset-0 flex items-center justify-center pointer-events-none"
+                aria-hidden="true"
+              >
+                <Heart
+                  size={110}
+                  className="fill-[#e0245e] text-[#e0245e] drop-shadow-[0_4px_20px_rgba(224,36,94,0.5)] animate-heart-burst"
+                />
               </span>
             )}
           </div>
@@ -271,17 +329,8 @@ const ProductPage = ({
               </button>
             </div>
 
-            {/* Partage */}
-            <button
-              onClick={handleShare}
-              className="inline-flex items-center gap-2 text-sm text-[#6b5d4f] hover:text-[#b06c4f] transition-colors mb-10 cursor-pointer"
-            >
-              <Share2 size={15} aria-hidden="true" />
-              {isShared ? '✓' : t.pdp.shareText}
-            </button>
-
             {/* Blocs d'information */}
-            <div className="space-y-8 border-t border-[#efe7da] pt-8">
+            <div className="space-y-8 border-t border-[#efe7da] pt-8 mt-10">
               <div>
                 <h2 className="font-serif text-2xl text-[#2b2118] mb-3">
                   {t.pdp.includesHeading}

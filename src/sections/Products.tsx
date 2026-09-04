@@ -1,15 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
-import { ShoppingBag, Check } from 'lucide-react';
+import { ShoppingBag, Check, Heart } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { trackEvent } from '../lib/analytics';
 import type { Product } from '../i18n/types';
+import type { WishlistItem } from '../lib/wishlist';
 
 interface ProductsProps {
-  onAddToCart: (product: Product) => void;
+  onAddToCart: (product: Product, source?: string) => void;
+  wishlist: WishlistItem[];
+  onToggleWishlist: (product: Product) => void;
 }
 
-const Products = ({ onAddToCart }: ProductsProps) => {
+const Products = ({ onAddToCart, wishlist, onToggleWishlist }: ProductsProps) => {
   const { t } = useLanguage();
   const sectionRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -35,6 +38,8 @@ const Products = ({ onAddToCart }: ProductsProps) => {
   }, []);
 
   const activeCategory = t.products.categories[activeCategoryIndex] ?? t.products.categories[0];
+  /** Cœurs "pop" affichés après un double-tap (id produit → timeout) */
+  const [burstHearts, setBurstHearts] = useState<number[]>([]);
 
   const filteredProducts = activeCategoryIndex === 0
     ? t.products.products
@@ -46,6 +51,19 @@ const Products = ({ onAddToCart }: ProductsProps) => {
     setTimeout(() => {
       setAddedItems(prev => prev.filter(id => id !== product.id));
     }, 2000);
+  };
+
+  /** Double-tap sur l'image → wishlist + cœur géant animé (pattern Instagram)
+   *  Le toggle/persistance/analytics est géré par le parent (Home) */
+  const handleImageDoubleClick = (product: Product) => {
+    const already = wishlist.some((w) => w.id === product.id);
+    onToggleWishlist(product);
+    if (!already) {
+      setBurstHearts((prev) => [...prev, product.id]);
+      setTimeout(() => {
+        setBurstHearts((prev) => prev.filter((id) => id !== product.id));
+      }, 700);
+    }
   };
 
   if (!t.products.heading && t.products.products.length === 0) return null;
@@ -113,11 +131,13 @@ const Products = ({ onAddToCart }: ProductsProps) => {
           </div>
         )}
 
-        {/* Products Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Products Grid — ratio carré 1:1, pattern feed Instagram */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredProducts.map((product, index) => {
             const isLowStock = product.stock > 0 && product.stock <= t.products.lowStockThreshold;
             const isAdded = addedItems.includes(product.id);
+            const inWishlist = wishlist.some((w) => w.id === product.id);
+            const isBursting = burstHearts.includes(product.id);
 
             return (
               <div
@@ -127,8 +147,13 @@ const Products = ({ onAddToCart }: ProductsProps) => {
                 }`}
                 style={{ transitionDelay: `${800 + index * 100}ms` }}
               >
-                {/* Image Container — cliquable vers la page produit */}
-                <Link to={`/produit/${product.slug}`} className="relative h-[400px] overflow-hidden bg-[#faf6f0] block" aria-label={product.name}>
+                {/* Image Container — cliquable vers la PDP, double-tap → wishlist */}
+                <Link
+                  to={`/produit/${product.slug}`}
+                  className="relative aspect-square overflow-hidden bg-[#faf6f0] block"
+                  aria-label={product.name}
+                  onDoubleClick={() => handleImageDoubleClick(product)}
+                >
                   <img
                     src={product.image}
                     alt={product.name}
@@ -147,6 +172,29 @@ const Products = ({ onAddToCart }: ProductsProps) => {
                   {product.compareAtPrice > product.price && (
                     <span className="absolute top-4 right-4 px-3 py-1.5 bg-[#b06c4f] text-white badge-unique rounded-full">
                       -{Math.round((1 - product.price / product.compareAtPrice) * 100)}%
+                    </span>
+                  )}
+
+                  {/* Indicateur wishlist discret (coin bas-droit) */}
+                  {inWishlist && (
+                    <span
+                      className="absolute bottom-3 right-3 w-8 h-8 rounded-full bg-white/85 backdrop-blur-sm flex items-center justify-center shadow-sm"
+                      aria-hidden="true"
+                    >
+                      <Heart size={15} className="fill-[#e0245e] text-[#e0245e]" />
+                    </span>
+                  )}
+
+                  {/* Cœur géant "burst" au double-tap — signature Instagram */}
+                  {isBursting && (
+                    <span
+                      className="absolute inset-0 flex items-center justify-center pointer-events-none"
+                      aria-hidden="true"
+                    >
+                      <Heart
+                        size={96}
+                        className="fill-[#e0245e] text-[#e0245e] drop-shadow-[0_4px_20px_rgba(224,36,94,0.5)] animate-heart-burst"
+                      />
                     </span>
                   )}
                 </Link>

@@ -31,6 +31,7 @@ export const en: Translations = {
     cartEmptyText: "Your cart is empty — come discover our creations.",
     cartCheckoutText: "Order on WhatsApp",
     continueShoppingText: "Continue shopping",
+    cartTitle: "Cart",
     menuBackgroundImage: "/images/atelier.webp",
     announcementText:
       "Free shipping over 300 DT · One-of-a-kind handmade pieces from Tunisia",
@@ -479,6 +480,69 @@ export const en: Translations = {
     shareText: "Share",
     notFoundText: "This piece doesn't exist — or has already found its owner.",
     cartReminderText: "Your cart is waiting — {n} piece{s} ready to order",
+  },
+  wishlist: {
+    tabText: "Favorites",
+    emptyText: "No favorites yet — double-tap any piece you like ♥",
+    addToCartText: "Add to cart",
+    doubleTapAriaLabel: "Add to favorites",
+  },
+  stories: {
+    viewAllText: "View all",
+    stories: [
+      {
+        id: 1,
+        title: "New Arrivals",
+        slides: [
+          {
+            text: "The latest creations from the workshop, just finished",
+            ctaText: "Discover the new arrivals",
+            ctaTarget: "#products",
+            ctaWhatsApp: false,
+            image: "/images/product-1.webp",
+          },
+        ],
+      },
+      {
+        id: 2,
+        title: "One of a Kind",
+        slides: [
+          {
+            text: "There will never be another. Truly.",
+            ctaText: "See the one-of-a-kind pieces",
+            ctaTarget: "#products",
+            ctaWhatsApp: false,
+            image: "/images/product-4.webp",
+          },
+        ],
+      },
+      {
+        id: 3,
+        title: "Behind the Scenes",
+        slides: [
+          {
+            text: "Bead after bead, in our Tunisian workshop",
+            ctaText: "The 12 gestures of our craft",
+            ctaTarget: "#craft",
+            ctaWhatsApp: false,
+            image: "/images/atelier.webp",
+          },
+        ],
+      },
+      {
+        id: 4,
+        title: "Order",
+        slides: [
+          {
+            text: "A question? Write to us directly on WhatsApp",
+            ctaText: "Chat on WhatsApp",
+            ctaTarget: "",
+            ctaWhatsApp: true,
+            image: "/images/hero-portrait.webp",
+          },
+        ],
+      },
+    ],
   },
   languageNames: { fr: "Français", en: "English", ar: "العربية" },
 };

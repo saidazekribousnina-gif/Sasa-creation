@@ -35,6 +35,7 @@ export const fr: Translations = {
     cartEmptyText: "Votre panier est vide — venez découvrir nos créations.",
     cartCheckoutText: "Commander sur WhatsApp",
     continueShoppingText: "Continuer mes achats",
+    cartTitle: "Panier",
     menuBackgroundImage: "/images/atelier.webp",
     announcementText: "Livraison offerte dès 300 DT · Pièces uniques faites main en Tunisie",
   },
@@ -496,6 +497,71 @@ export const fr: Translations = {
     shareText: "Partager",
     notFoundText: "Cette pièce n'existe pas ou a déjà trouvé sa propriétaire.",
     cartReminderText: "Votre panier vous attend — {n} pièce{s} prête{s} à commander",
+  },
+
+  wishlist: {
+    tabText: "Favoris",
+    emptyText: "Aucun favori pour l'instant — double-cliquez sur une pièce qui vous plaît ♥",
+    addToCartText: "Ajouter au panier",
+    doubleTapAriaLabel: "Ajouter aux favoris",
+  },
+
+  stories: {
+    viewAllText: "Voir tout",
+    stories: [
+      {
+        id: 1,
+        title: "Nouveautés",
+        slides: [
+          {
+            text: "Les dernières créations de l'atelier, tout juste terminées",
+            ctaText: "Découvrir les nouveautés",
+            ctaTarget: "#products",
+            ctaWhatsApp: false,
+            image: "/images/product-1.webp",
+          },
+        ],
+      },
+      {
+        id: 2,
+        title: "Pièces uniques",
+        slides: [
+          {
+            text: "Il n'en existera jamais d'autre. Vraiment.",
+            ctaText: "Voir les pièces uniques",
+            ctaTarget: "#products",
+            ctaWhatsApp: false,
+            image: "/images/product-4.webp",
+          },
+        ],
+      },
+      {
+        id: 3,
+        title: "Coulisses",
+        slides: [
+          {
+            text: "Perle après perle, dans notre atelier tunisien",
+            ctaText: "Les 12 gestes du savoir-faire",
+            ctaTarget: "#craft",
+            ctaWhatsApp: false,
+            image: "/images/atelier.webp",
+          },
+        ],
+      },
+      {
+        id: 4,
+        title: "Commander",
+        slides: [
+          {
+            text: "Une question ? Écrivez-nous directement sur WhatsApp",
+            ctaText: "Discuter sur WhatsApp",
+            ctaTarget: "",
+            ctaWhatsApp: true,
+            image: "/images/hero-portrait.webp",
+          },
+        ],
+      },
+    ],
   },
 
   languageNames: {

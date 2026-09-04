@@ -274,4 +274,41 @@ html[dir="rtl"] [dir="ltr"] {
   .animate-gentle-pulse {
     animation: gentlePulse 2s ease-in-out infinite;
   }
+
+/* Cœur burst double-tap — signature Instagram */
+@keyframes heartBurst {
+  0% {
+    transform: scale(0);
+    opacity: 0.9;
+  }
+  40% {
+    transform: scale(1.25);
+    opacity: 1;
+  }
+  70% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.9) translateY(-12px);
+    opacity: 0;
+  }
+}
+
+.animate-heart-burst {
+  animation: heartBurst 0.7s cubic-bezier(0.32, 0.72, 0, 1) forwards;
+}
+
+/* Scroll-snap sections — sensation de feed vertical (mobile uniquement) */
+@media (max-width: 768px) {
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-snap-type: y proximity;
+    }
+    #hero {
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+    }
+  }
+}
 }
