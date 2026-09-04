@@ -4,6 +4,7 @@ import type { Product } from './i18n/types'
 import { getSafeStorage, loadCart, saveCart } from './lib/cartStorage'
 import { hapticFeedback } from './lib/haptics'
 import { trackEvent } from './lib/analytics'
+import { trackMetaEvent } from './lib/metaPixel'
 import Home from './pages/Home'
 import ProductPage from './pages/ProductPage'
 
@@ -34,6 +35,13 @@ export default function App() {
       price: product.price,
       one_of_a_kind: product.isOneOfAKind,
       source,
+    })
+    trackMetaEvent('AddToCart', {
+      content_name: product.name,
+      content_ids: [`SASA-${product.id}`],
+      content_type: 'product',
+      value: product.price,
+      currency: 'TND',
     })
     setCartItems((prevItems) => {
       const existingItem = prevItems.find((item) => item.id === product.id)

@@ -5,6 +5,7 @@ import { LANGUAGES } from '../i18n/types';
 import type { Language } from '../i18n/types';
 import { buildOrderMessage, buildWhatsAppUrl } from '../lib/whatsapp';
 import { trackEvent } from '../lib/analytics';
+import { trackMetaEvent } from '../lib/metaPixel';
 
 interface CartItem {
   id: number;
@@ -355,6 +356,11 @@ const Navigation = ({ cartItems, onRemoveFromCart, onUpdateQuantity }: Navigatio
                     trackEvent('whatsapp_order_click', {
                       items_count: cartItems.length,
                       total: totalPrice,
+                    });
+                    trackMetaEvent('InitiateCheckout', {
+                      value: totalPrice,
+                      currency: 'TND',
+                      num_items: cartItems.reduce((sum, item) => sum + item.quantity, 0),
                     });
                     const message = buildOrderMessage(cartItems, {
                       orderGreeting: t.whatsapp.orderGreeting,

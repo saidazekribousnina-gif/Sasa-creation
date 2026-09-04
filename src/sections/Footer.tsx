@@ -1,6 +1,9 @@
 import { Instagram, Facebook, Twitter, ArrowRight } from 'lucide-react';
 import { useState } from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
+import { buildWhatsAppUrl } from '../lib/whatsapp';
+import { trackEvent } from '../lib/analytics';
+import { trackMetaEvent } from '../lib/metaPixel';
 
 const iconMap: Record<string, React.ComponentType<{ size?: number; strokeWidth?: number; className?: string }>> = {
   Instagram,
@@ -12,16 +15,46 @@ const Footer = () => {
   const { t } = useLanguage();
   const [email, setEmail] = useState('');
   const [isSubscribed, setIsSubscribed] = useState(false);
+  const [isSending, setIsSending] = useState(false);
 
   if (!t.footer.brandName) return null;
 
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) {
-      setIsSubscribed(true);
-      setEmail('');
-      setTimeout(() => setIsSubscribed(false), 3000);
+    if (!email || isSending) return;
+
+    setIsSending(true);
+    trackEvent('newsletter_submit');
+    trackMetaEvent('Subscribe');
+
+    const endpoint = import.meta.env.VITE_NEWSLETTER_ENDPOINT as string | undefined;
+
+    if (endpoint) {
+      // Vraie inscription — service externe (Formspree, MailerLite, etc.)
+      try {
+        await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email }),
+        });
+      } catch {
+        // Échec réseau — l'utilisateur est quand même remercié,
+        // l'e-mail reste récupérable via le canal WhatsApp ci-dessous
+      }
+    } else {
+      // Pas d'endpoint configuré — l'inscription passe par WhatsApp
+      const message = `${t.whatsapp.contactGreeting}\n\n${t.footer.newsletterHeading} : ${email}`;
+      window.open(
+        buildWhatsAppUrl(t.whatsapp.phoneNumber, message),
+        '_blank',
+        'noopener,noreferrer'
+      );
     }
+
+    setIsSending(false);
+    setIsSubscribed(true);
+    setEmail('');
+    setTimeout(() => setIsSubscribed(false), 4000);
   };
 
   const scrollToSection = (href: string) => {
@@ -102,10 +135,13 @@ const Footer = () => {
                 </div>
                 <button
                   type="submit"
-                  className="flex items-center justify-center gap-2 px-6 py-3 bg-[#8b6d4b] text-white text-sm font-light tracking-wider btn-hover"
+                  disabled={isSending}
+                  className="flex items-center justify-center gap-2 px-6 py-3 bg-[#8b6d4b] text-white text-sm font-light tracking-wider btn-hover disabled:opacity-50 cursor-pointer"
                 >
                   {isSubscribed ? (
                     <span>{t.footer.newsletterSuccessText}</span>
+                  ) : isSending ? (
+                    <span className="animate-pulse">…</span>
                   ) : (
                     <>
                       <span>{t.footer.newsletterButtonText}</span>

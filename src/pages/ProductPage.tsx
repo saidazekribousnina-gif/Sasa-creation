@@ -6,6 +6,7 @@ import type { Product } from '../i18n/types';
 import { buildOrderMessage, buildWhatsAppUrl } from '../lib/whatsapp';
 import { hapticFeedback } from '../lib/haptics';
 import { trackEvent } from '../lib/analytics';
+import { trackMetaEvent } from '../lib/metaPixel';
 import Navigation from '../sections/Navigation';
 import Footer from '../sections/Footer';
 import WhatsAppFloat from '../sections/WhatsAppFloat';
@@ -53,6 +54,13 @@ const ProductPage = ({
   useEffect(() => {
     if (!product) return;
     document.title = `${product.name} — Sasa Creation`;
+    trackMetaEvent('ViewContent', {
+      content_name: product.name,
+      content_ids: [`SASA-${product.id}`],
+      content_type: 'product',
+      value: product.price,
+      currency: 'TND',
+    });
     return () => {
       document.title = t.site.title;
     };

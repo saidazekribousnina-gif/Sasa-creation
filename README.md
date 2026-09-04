@@ -55,4 +55,14 @@ npm run preview
 
 ## Tests
 
-12 tests unitaires couvrent la logique pure (messages WhatsApp, normalisation numéro, persistance panier avec données corrompues). Aucun test E2E pour l'instant.
+27 tests unitaires couvrent la logique pure (messages WhatsApp, normalisation numéro, persistance panier, haptique, analytics, Meta Pixel).
+
+## Variables d'environnement (Vercel → Settings → Environment Variables)
+
+| Variable | Rôle | Défaut sans config |
+|---|---|---|
+| `VITE_META_PIXEL_ID` | Active le Meta Pixel (retargeting Facebook/Instagram) | Pixel non chargé, site 100 % fonctionnel |
+| `VITE_NEWSLETTER_ENDPOINT` | Endpoint POST pour inscriptions newsletter (Formspree, MailerLite…) | Inscription via WhatsApp avec e-mail pré-rempli |
+| `SITE_URL` (build) | URL canonique pour le sitemap | `https://sasa-creation.vercel.app` |
+
+**Activer le retargeting Meta** : créez un Pixel sur https://business.facebook.com/events_manager → copiez l'ID (15-16 chiffres) → Vercel → Environment Variables → `VITE_META_PIXEL_ID` → Redeploy. Événements émis : PageView, ViewContent (PDP), AddToCart, InitiateCheckout (commande WhatsApp), Contact, Subscribe.
